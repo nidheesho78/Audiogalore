@@ -1,0 +1,91 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+
+					
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="../fe/img/login1.jpg" alt="">
+						<div class="hover">
+							<a class="primary-btn" href="/register">Create an Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+				<div class="login_form_inner">
+					<h3>Log in to enter</h3>
+					<form class="row login_form" action="/login" method="post" id="loginForm" onsubmit="return validateLoginForm();" novalidate="novalidate">
+						<div class="col-md-12 form-group">
+							<input type="text" class="form-control" id="email" name="email" placeholder="Username or Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+						
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+						</div>
+						<div class="col-md-12 form-group">
+							<!-- ... (rest of your code) ... -->
+						</div>
+						<div class="col-md-12 form-group">
+							<button type="submit" value="submit" class="primary-btn">Log In</button>
+							<a href="/forgotPassword">Forgot Password?</a>
+							<p id="error-message"><%=(typeof message!=='undefined' )?message:""%></p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--================End Login Box Area =================-->
+
+	<%- include('../layouts/userFooter.ejs') %>
+	<script>
+	function validateLoginForm() {
+		var email = document.getElementById("email").value;
+		var password = document.getElementById("password").value;
+		var errorMessage = document.getElementById("error-message");
+
+		if (!email.trim() || !password.trim()) {
+			errorMessage.textContent = "Please fill in both email and password fields.";
+			displayErrorMessage(errorMessage);
+			return false; // Prevent form submission
+		}
+
+		// Password strength validation
+		var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[a-zA-Z\d@$!%#?&]{8,}$/;
+		if (!passwordRegex.test(password)) {
+			errorMessage.textContent = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.";
+			displayErrorMessage(errorMessage);
+			return false; // Prevent form submission
+		}
+
+		// Additional validation logic can be added here if needed
+
+		return true; // Allow form submission
+	}
+
+	function displayErrorMessage(errorMessage) {
+		errorMessage.style.display = "block";
+		errorMessage.style.color = "red";
+		setTimeout(function() {
+			errorMessage.style.display = "none";
+		}, 3000); // Display the error message for 3 seconds (3000 milliseconds)
+	}
+</script>
+
+

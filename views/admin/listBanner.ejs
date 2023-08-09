@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-categories.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:21 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Audiogalore</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../admin-assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="../admin-assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    .tooltip-ellipsis {
+  max-width: 200px; /* Adjust the maximum width as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-ellipsis::after {
+  content: attr(title);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+
+.tooltip-ellipsis:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+</style>
+<body>
+    <%- include('../layouts/adminHeader.ejs') %>	
+
+
+     
+        <section class="content-main">
+            <div class="row">
+                <div class="col-6">
+                    <div class="content-header">
+                        <h2 class="content-title">Banners</h2>
+                        <div>
+                            <a class="btn btn-md rounded font-sm hover-up" href="/admin/addBanner"  type="button">Add Banner</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                       
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                            </th>
+                                            <th>Banner</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                            <th class="text-end">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      <% banners.forEach(banner => { %>
+                                        <tr>
+                                            <td class="text-center">
+                                            </td>
+                                            <td  class="tooltip-ellipsis"><b><img class="img-fluid" src="../banner-images/<%= banner.image %>" style="width: 350px; height: 150px;"></b></td>
+                                            <td  class="tooltip-ellipsis"><%=banner.title %></td>
+                                            <td><%=banner.link %> </td>
+                                            <td class="text-end">
+                                                <div class="dropdown">
+                                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="/admin/editCategory?id=<%=banner._id %>">Edit info</a>
+                                                        <a class="dropdown-item" href="/admin/deleteBanner?id=<%=banner._id %>">Delete</a>
+                                                           
+                                                    </div>
+                                                </div> 
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> <!-- .col// -->
+                    </div> <!-- .row // -->
+                </div> <!-- card body .// -->
+            </div> <!-- card .// -->
+        </section> <!-- content-main end// -->
+    <%- include('../layouts/adminFooter.ejs') %>
+
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+   
+</body>
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-categories.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:21 GMT -->
+</html>

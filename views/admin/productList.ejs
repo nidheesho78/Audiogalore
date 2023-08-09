@@ -1,0 +1,229 @@
+<style>
+  
+
+  .tooltip-ellipsis {
+      max-width: 200px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      position: relative;
+      cursor: help;
+  }
+ .table tbody td {
+    border: 1px solid #9fb3c2; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+  }
+  .tooltip-ellipsis::after {
+      content: attr(title);
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 4px 8px;
+      background-color: #000;
+      color: #fff;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+  }
+
+  .tooltip-ellipsis:hover::after {
+      opacity: 1;
+      visibility: visible;
+  }
+  .table-hover tbody tr:hover {
+    background-color: #46f1be; /* Change the background color as desired */
+    cursor:auto; /* Change cursor to pointer to indicate interactivity */
+    align-items: center;
+    
+  }
+  .table-hover tbody tr:hover {
+    background-color:#46f1be;
+    cursor: auto;
+    transform: scale(1.02); /* Adjust the scaling value here */
+    transition: transform 0.3s ease;
+    align-items: center;
+  }
+
+.table-header-row {
+    background-color:#46f1be; /* Set your desired background color for the header row */
+  }
+
+  /* Styling for the table header cells */
+  .table-header-cell {
+    font-weight: bold; /* Make the header text bold */
+    color: #ff0b0b; /* Set the font color for the header text */
+  }
+  .table tbody td {
+    border: 1px solid #dee2e6; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+    align-items: center;
+  }
+
+  /* Style for the table header cells */
+  .table thead th {
+    border: 1px solid #dee2e6; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+    font-weight: bold; /* Make the header text bold */
+    color: #0c0000; /* Set the font color for the header text */
+  }
+
+</style>
+
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+<!-- Your HTML code -->
+
+<!-- Bootstrap JavaScript and jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Link to Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+
+<!-- Link to Bootstrap JS (requires Popper.js and Bootstrap.bundle.min.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+
+
+<%- include('../layouts/adminHeader.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Products List</h2>
+      </div>
+      <div>
+        <a href="/admin/addProduct" class="btn btn-light btn-sm rounded">Create new</a>
+      </div>
+    </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover" id="myTable">
+             <thead>
+    <tr class="table-header-row">
+     
+      <th class="table-header-cell">S.No</th>
+      <th class="table-header-cell">Name</th>
+      <th class="table-header-cell">Price</th>
+      <th class="table-header-cell">Description</th>
+      <th class="table-header-cell">Stock</th>
+      <th class="table-header-cell">Status</th>
+      <th class="table-header-cell">Action</th>
+    </tr>
+  </thead>
+           <tbody>
+  <% product.forEach((item, index) => { %>
+    <tr>
+      <td class="text-center"><%= index + 1 %></td>
+      <td class="text-center">
+        <div class="left">
+          <img src="../product-images/<%= item.images[0] %>" class="img-sm img-thumbnail" alt="Item"
+            data-bs-toggle="modal" data-bs-target="#imageModal<%= item._id %>">
+        </div>
+        <div class="info">
+          <h6 class="mb-0 tooltip-ellipsis" title="<%= item.name %>"><%= item.name %></h6>
+        </div>
+      </td>
+      <td class="text-center tooltip-ellipsis" data-bs-toggle="tooltip" title="<%= item.price %>">
+        <%= item.price %>
+      </td>
+      <td class="text-center">
+        <div class="tooltip-ellipsis" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= item.description %>">
+          <%= item.description %>
+        </div>
+      </td>
+      <td class="text-center">
+        <%= item.stock %> <!-- Display the stock value -->
+      </td>
+      <td class="text-center table-status">
+        <%= item.is_listed ? "Listed" : "Unlisted" %>
+      </td>
+      <td class="text-center">
+        <a href="/admin/editProductList?id=<%=item._id%>" class="btn btn-sm font-sm rounded btn-brand">
+          <i class="material-icons md-edit"></i> Edit
+        </a>
+        <a href="/admin/deleteProduct?id=<%=item.id%>" class="btn btn-sm font-sm btn-light rounded">
+          <i class="material-icons md-delete_forever"></i> Delete
+        </a>
+      </td>
+    </tr>
+  <% }); %>
+</tbody>
+
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+<% product.forEach((item) => { %>
+<!-- Modal -->
+<div class="modal fade" id="imageModal<%= item._id %>" tabindex="-1" aria-labelledby="imageModalLabel<%= item._id %>"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="imageModalLabel<%= item._id %>">Product Images - <%= item.name %></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div id="carousel<%= item._id %>" class="carousel slide" data-bs-ride="carousel">
+                  <!-- Indicators -->
+                  <ol class="carousel-indicators">
+                      <% item.images.forEach((image, index) => { %>
+                      <li data-bs-target="#carousel<%= item._id %>" data-bs-slide-to="<%= index %>"
+                          <% if (index === 0) { %> class="active" <% } %>></li>
+                      <% }); %>
+                  </ol>
+                  <!-- Slides -->
+                  <div class="carousel-inner">
+                      <% item.images.forEach((image, index) => { %>
+                      <div class="carousel-item <% if (index === 0) { %> active <% } %>">
+                          <img src="../product-images/<%= image %>" class="d-block w-100" alt="Item">
+                      </div>
+                      <% }); %>
+                  </div>
+                  <!-- Controls -->
+                  <a class="carousel-control-prev" href="#carousel<%= item._id %>" role="button" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carousel<%= item._id %>" role="button" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<% }); %>
+
+
+<script>
+    $(document).ready(function() {
+    $.noConflict();
+      $('#myTable').DataTable({
+        "paging": true,          // Enable pagination
+        "pageLength": 10,        // Number of rows per page
+        "lengthMenu": [10, 5],  // Dropdown options for rows per page
+
+      });
+    });
+    </script>
+
+<%- include('../layouts/adminFooter.ejs') %>

@@ -1,0 +1,104 @@
+<%- include('../layouts/userHeader.ejs') %>
+
+
+
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+
+                    <h1>Login</h1>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+
+
+
+    <section class="register_area p_100">
+        <div class="container mt-5 mb-5">
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <div class="register_box">
+                        <h2 style="margin-bottom: 30px; text-align: center;">Verify OTP</h2>
+                        <div class="text-center">
+                            <form class="row contact_form" action="/verifyOtp" method="post"
+                                onsubmit="return validateForm(event)">
+                                <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                                    <input type="text" style="text-align: center;" class="form-control" id="otp"
+                                        name="otp" placeholder="Enter OTP">
+                                </div>
+                                <div class="col-md-12 form-group form-group-spacing">
+                                    <button type="submit" value="submit" class="btn submit_btn">Verify</button>
+                                </div>
+                                <div class="col-md-12 form-group form-group-spacing">
+                                    <a href="/resendOtp">
+                                        <p type="button" class="btn resend_btn" id="resendBtn"
+                                            style="display: none; color: rgb(49, 156, 72);">Resend OTP</p>
+                                    </a>
+
+                                   <p style="color: red;">
+    <%=(typeof message!=='undefined') ? message : "" %>
+</p>
+
+
+                                </div>
+                                <div class="col-md-12 form-group form-group-spacing">
+                                    <p id="countdown" style="display: none;"></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Wait for 5 seconds before showing the resend button
+        setTimeout(function () {
+            document.getElementById("resendBtn").style.display = "block";
+        }, 5000);
+
+        // Countdown timer
+        var countdownElement = document.getElementById("countdown");
+        var timeLeft = 5; // Set the time in seconds
+
+        function startCountdown() {
+            countdownElement.style.display = "block";
+            countdownElement.textContent = "Resend OTP in " + timeLeft + " seconds";
+            timeLeft--;
+
+            if (timeLeft >= 0) {
+                setTimeout(startCountdown, 1000); // Update every second
+            } else {
+                countdownElement.style.display = "none";
+            }
+        }
+
+        startCountdown();
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <%- include('../layouts/userFooter.ejs') %>

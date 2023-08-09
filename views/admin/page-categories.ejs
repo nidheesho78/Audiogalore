@@ -1,0 +1,222 @@
+<style>
+  .content-main {
+    padding: 20px;
+  }
+
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .content-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .table th {
+    font-weight: bold;
+    color:#000;
+    text-align: center;
+    background-color: #ffffff;
+  }
+
+  .tablehead {
+    background-color: #46f1be;
+  }
+  .tooltip-ellipsis {
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    cursor: help;
+  }
+
+  .tooltip-ellipsis::after {
+    content: attr(title);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip-ellipsis:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .btn-light {
+    background-color: #f8f9fa;
+    color: #333;
+  }
+
+  .btn-light:hover {
+    background-color: #46f1be;
+  }
+
+  /* New styles for hover effect and border */
+  .card:hover {
+    border: 1px solid #46f1be;
+   
+  }
+
+  .card-title {
+    font-weight: bold;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: #f2f2f2;
+  }
+
+   .table-hover tbody tr:hover {
+     
+    background-color:#46f1be;
+    transform: scale(1.02); /* Adjust the scaling value as desired */
+    transition: background-color 0.2s, transform 0.2s; /* Set the transition duration */
+  }
+  
+</style>
+
+
+<%- include('../layouts/adminHeader.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Create Category</h2>
+            <p>Add, edit, or change status</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="/admin/addCategory" method="post" onsubmit="return validateForm()">
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Name</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="product_name" name="name" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Description</label>
+                            <textarea placeholder="Type here" class="form-control" name="description"></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Create category</button>
+                            <p><%=(typeof message!=='undefined')?message:""%></p>
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section> <!-- content-main end// -->
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Category Management</h2>
+            <p>Manage existing categories</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white">
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="tablehead">
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Is Listed</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                <tbody>
+  <% categories.forEach((category)=> { %>
+  <tr>
+    <td style="text-align: center;"><b><%= category.name %></b></td>
+    <td style="text-align: center;" title="<%=category.description %>" class="tooltip-ellipsis"><%=category.description %></td>
+    <% if (category.isListed == true) { %>
+    <td style="text-align: center;"><span style="color: green;">Listed</span></td>
+    <% } else { %>
+    <td style="text-align: center;"><span style="color: red;">Unlisted</span></td>
+    <% } %>
+    <td class="text-end" style="text-align: center;">
+      <div class="dropdown">
+        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+          <i class="material-icons md-more_horiz"></i>
+        </a>
+        <div class="dropdown-menu text-center">
+          <a class="dropdown-item" href="/admin/editCategory?id=<%=category._id %>">Edit info</a>
+          <a class="dropdown-item text-danger" href="/admin/changeStatus?id=<%=category._id %>">Change Status</a>
+          <a class="dropdown-item text-danger" href="/admin/deleteCategory?id=<%=category._id %>">Delete</a>
+        </div>
+      </div> <!-- dropdown //end -->
+    </td>
+  </tr>
+  <% }); %>
+</tbody>
+
+                </table>
+            </div>
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section> <!-- content-main end// -->
+
+<%- include('../layouts/adminFooter.ejs') %>
+
+<script>
+  function validateForm() {
+    const nameInput = document.getElementById("product_name").value.trim();
+    const namePattern = /^[A-Za-z0-9\s]+$/; // Only allows letters, numbers, and spaces
+
+    if (nameInput === "") {
+      alert("Category name cannot be empty.");
+      return false;
+    }
+
+    if (!namePattern.test(nameInput)) {
+      alert("Category name can only contain letters, numbers, and spaces.");
+      return false;
+    }
+
+    return true;
+  }
+</script>

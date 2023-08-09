@@ -1,0 +1,40 @@
+<%- include('../layouts/adminHeader.ejs') %>
+
+<%- include('../layouts/adminFooter.ejs') %>
+
+<!-- <script>
+    function validateForm() {
+        const titleInput = document.getElementById("title").value.trim();
+        const descriptionInput = document.getElementById("description").value.trim();
+        const imageInput = document.getElementById("image").value.trim();
+
+        const titlePattern = /^[A-Za-z0-9\s]+$/; // Only allows letters, numbers, and spaces
+
+        const titleError = document.getElementById("titleError");
+        const descriptionError = document.getElementById("descriptionError");
+        const imageError = document.getElementById("imageError");
+
+        titleError.textContent = "";
+        descriptionError.textContent = "";
+        imageError.textContent = "";
+
+        if (titleInput === "") {
+            titleError.textContent = "Title cannot be empty.";
+            return false;
+        }
+
+        if (!titlePattern.test(titleInput)) {
+            titleError.textContent = "Title can only contain letters, numbers, and spaces.";
+            return false;
+        }
+
+        if (descriptionInput === "") {
+            descriptionError.textContent = "Description cannot be empty.";
+            return false;
+        }
+
+        // Optional: Validate image, if required
+
+        return true;
+    }
+</script> -->

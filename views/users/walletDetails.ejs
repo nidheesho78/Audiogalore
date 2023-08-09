@@ -1,0 +1,95 @@
+<%-include('../layouts/profileHeader.ejs')%>
+
+
+
+
+<section class="user-dashboard page-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="list-inline dashboard-menu text-center">
+					<li><a  href="/dashboard">Dashboard</a></li>
+					<li><a href="/profileOrderList">Orders</a></li>
+					<li><a href="/profileAddress">Address</a></li>
+					<li><a href="/profileDetails">Profile Details</a></li>
+                    <li><a class="active" href="/wallet">Transactions</a></li>
+
+				</ul>
+				<div class="dashboard-wrapper user-dashboard">
+					<div class="media">
+						
+						<div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sl No</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Transaction type</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% wallet.forEach(function(wallet,index) {%>
+                                    <tr>
+                                        <td><%=index+1%></td>
+                                        <td><%=wallet.walletTransaction.date.toLocaleString()%></td>
+                                        <td>₹ <%=wallet.walletTransaction.amount%></td>
+                                        <%if(wallet.walletTransaction.type=="Credit"){%>
+                                        <td><span class="label label-primary"><%=wallet.walletTransaction.type%></span></td>
+                                        <%}else{%>
+                                        <td><span class="label label-danger"><%=wallet.walletTransaction.type%></span></td>
+                                        <%}%>
+                                    </tr>
+                                    <% }) %>
+  
+                                </tbody>
+                            </table>
+                        </div>
+					</div>
+					<div class="total-order mt-20">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+    <!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="../theme/plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="../theme/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="../theme/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="../theme/plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="../theme/plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="../theme/plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="../theme/plugins/slick/slick.min.js"></script>
+    <script src="../theme/plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="../theme/plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="../theme/js/script.js"></script>
+
+    
+    
+
+
+  </body>
+  </html>

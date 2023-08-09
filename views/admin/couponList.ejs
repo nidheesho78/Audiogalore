@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Audiogalore</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="../assets/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <style>
+  /* Add hover effect to table rows */
+#myTable tbody tr:hover {
+    background-color: #46f1be;
+}
+
+/* Style table cells */
+#myTable .table td,
+#myTable .table th {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Style the "Remove" button */
+#myTable .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect for the "Remove" button */
+#myTable .btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Center text in the "Action" column */
+#myTable .text-end {
+    text-align: center;
+}
+
+/* Add some spacing between table cells */
+#myTable .table th {
+    padding: 10px;
+}
+
+/* Adjust font size for table header */
+#myTable .table th {
+    font-size: 14px;
+}
+.tableHeader {
+    background-color:#46f1be; /* Set your desired background color for the header row */
+  }
+
+/* Style table header background and text color */
+#myTable .table thead {
+    background-color: #343a40;
+    color: white;
+}
+ .table tbody td {
+    border: 1px solid #dee2e6; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+    align-items: center;
+  }
+/* Style even and odd rows differently for better readability */
+#myTable .table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+</style>
+  
+</head>
+
+<body>
+    <%- include('../layouts/adminHeader.ejs') %>	
+
+    <main class="main-wrap" style="margin-left: -6px;">
+   
+
+<section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Coupons </h2>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <header class="border-bottom mb-4 pb-4">
+              <div class="row">
+                <!-- <div class="col-lg-5 col-6">
+                  <div class="input-group">
+                    <input type="text" placeholder="Search..." class="form-control">
+                  </div>
+                </div> -->
+                <div class="col-lg-5 col-6 ">
+                  <button class="btn btn-primary btn-lg btn-block ml-50px" onclick="location.href='/admin/addCoupon';">
+                    Create Coupons
+                  </button>
+  
+                </div>
+              </div>
+            </header>
+  
+            <div class="table-responsive">
+              <table class="table table-hover" id="myTable">
+                <thead>
+                  <tr class="tableHeader">
+                    <th>No:</th>
+                    <th>Coupon Code</th>
+                    <th>Min Purchase Amount</th>
+                    <th>Discount %</th>
+                    <th>Max Discount Amount</th>
+                    <th>Expiry Date</th>
+                    <th class="text-end"> Action </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% couponList.forEach(function(item,index) { %>
+  
+                  <tr>
+                    <td><%=index + 1%></td>
+                    <td><%=item.couponCode%></td>
+                    <td><%=item.minPurchase%></td>
+                    <td><%=item.minDiscountPercentage%>%</td>
+                    <td>₹<%=item.maxDiscountValue%></td>
+                    <td><%= new Date(item.validity).toDateString()%></td>
+                    <td class="text-end">
+                      <button class="btn-sm btn-danger" onclick="removeCoupon('<%=item._id%>')">Remove</button>
+                    </td>
+                  </tr>
+  
+                  <% }); %>
+                </tbody>
+              </table>
+            </div> <!-- table-responsive.// -->
+          </div> <!-- col end// -->
+  
+        </div> <!-- row end// -->
+      </div> <!-- card-body // -->
+    </div> <!-- card end// -->
+    <!-- <div class="pagination-area mt-30 mb-50">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+          <li class="page-item active"><a class="page-link" href="#">01</a></li>
+          <li class="page-item"><a class="page-link" href="#">02</a></li>
+          <li class="page-item"><a class="page-link" href="#">03</a></li>
+          <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+          <li class="page-item"><a class="page-link" href="#">16</a></li>
+          <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+        </ul>
+      </nav>
+    </div> -->
+  </section>
+  
+  <script>
+    
+    //to remove the Coupon
+
+  </script>
+  <script>
+    function removeCoupon(couponId){
+  $.ajax({
+    url : '/admin/removeCoupon',
+    method : 'delete',
+    data : {
+      couponId : couponId
+    },
+    success: (response) => {
+            if (response.status) {
+              location.reload()
+            }
+          }
+    
+    
+  })
+  
+ }
+  </script>
+    <script src="../assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/vendors/select2.min.js"></script>
+    <script src="../assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="../assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="../assets/js/main.js" type="text/javascript"></script>
+
+    <script>
+      $(document).ready(function() {
+      $.noConflict();
+        $('#myTable').DataTable({
+          "paging": true,          // Enable pagination
+          "pageLength": 10,        // Number of rows per page
+          "lengthMenu": [10, 25, 50, 75, 100],  // Dropdown options for rows per page
+  
+        });
+      });
+      </script>

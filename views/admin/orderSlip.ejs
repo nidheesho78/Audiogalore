@@ -1,0 +1,159 @@
+ 
+</style>
+     
+<%- include('../layouts/adminHeader.ejs') %>
+
+
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+          
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span>
+                        <i class="material-icons md-calendar_today"></i> <b><%=orders[0].createdAt.toLocaleString()%></b>
+                    </span> <br>
+                    <small class="text-muted">Order ID: <%=orders[0]._id%></small>
+                </div>
+                
+            </div>
+        </header> <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                                <%=address.item.name%>  <template class="_cf_email_" data-cfemail="e2838e879aa2879a838f928e87cc818d8f">[email&#160;protected]</template> <br><%=address.item.mobileNumber%>
+                            </p>
+                       
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-place"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                <%=address.item.address%><br>
+                                <%=address.item.locality%> <br>
+                                <%=address.item.city%> <br>
+                                <%=address.item.pincode%> <br>
+                                <%=address.item.state%>
+                            </p>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="20%">Unit Price</th>
+                                    <th width="20%">Quantity</th>
+                                    <th width="20%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% products.forEach(function(product,index) {%>
+
+                                <tr>
+                                    <td>
+                                        <a class="itemside" href="#">
+                                            <div class="left">
+                                                <img src="../product-images/<%= product.image[0]%>" width="40" height="40" class="img-xs" alt="Item">
+                                            </div>
+                                            <div class="info"> <%=product.productName%> </div>
+                                        </a>
+                                    </td>
+                                    <td> ₹<%=product.productPrice%></td>
+                                    <td> <%=product.quantity%></td>
+                                    <td class="text-end"> ₹<%= product.productPrice*product.quantity %> </td>
+                                </tr>
+                                <% }) %>
+
+                            
+                            
+                            
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                        
+                                            <dl class="dlist">
+                                                <dt>Grand total:</dt>
+                                                <dd> <b class="h5">₹<%=orders[0].totalPrice%></b> </dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt class="text-muted">Status:</dt>
+                                                <dd>
+                                                    <span class="badge rounded-pill alert-success text-success"><%=orders[0].paymentStatus%></span>
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive// -->
+                </div> <!-- col// -->
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6 class="mb-15">Payment info</h6>
+                        <p>
+                            Payment Method : <%=orders[0].paymentMethod%> <br>
+                          
+                        </p>
+                    </div>
+                 
+                </div> <!-- col// -->
+            </div>
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+</div>
+</section> <!-- content-main end// -->
+
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="../assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/vendors/select2.min.js"></script>
+    <script src="../assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="../assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="../assets/js/main.js" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:22 GMT -->
+</html>

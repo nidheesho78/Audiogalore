@@ -1,0 +1,340 @@
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/fav.png">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Audiogalore</title>
+
+    <!--
+            CSS
+            ============================================= -->
+    <link rel="stylesheet" href="../fe/css/linearicons.css">
+    <link rel="stylesheet" href="../fe/css/owl.carousel.css">
+    <link rel="stylesheet" href="../fe/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../fe/css/themify-icons.css">
+    <link rel="stylesheet" href="../fe/css/nice-select.css">
+    <link rel="stylesheet" href="../fe/css/nouislider.min.css">
+    <link rel="stylesheet" href="../fe/css/bootstrap.css">
+    <link rel="stylesheet" href="../fe/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Start Header Area -->
+    <%- include('../layouts/userHeader.ejs') %>	
+    <!-- End Header Area -->
+
+
+
+    <!--================Cart Area =================-->
+    <section class="cart_area" style="margin-top: 90px;">
+        <div class="container">
+            <div class="cart_inner">
+
+              <%if(wishlistProducts.length!=0) {%>
+                
+                <div class="table-responsive">
+                 
+                    <table class="table shopping-summery text-center">
+                        <thead>
+                          <tr class="main-heading">
+                            <th scope="col">Product</th>
+                            <th scope="col" colspan="1">Details</th>
+                            <th scope="col"colspan="1">Price</th>
+                            <!-- <th scope="col">Stock Status</th> -->
+                            <th scope="col">Action</th>
+                            <th scope="col">Remove</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% wishlistProducts.forEach(function(item) { %>
+          
+          
+                          <tr>
+                            <td class="image product-thumbnail"><img src="../product-images/<%=item.wishListed.images[0]%>" alt="#"  width="100px" height="115px" ></td>
+                            <!-- <div class="d-flex">
+                                <img src="../product-images/<%=item.wishListed.images[0]%>" width="50px" height="50px"  alt="">
+                            </div> -->
+                            <td class="product-des product-name">
+                              <h5 class="product-name"><a href="/productPage?id=<%=item.wishListed._id %>"><%=item.wishListed.name%></a></h5>
+                              <p class="font-xs"><%=item.wishListed.description%>
+                              </p>
+                            </td>
+                            <td class="price" data-title="Price"><span>₹<%=item.wishListed.price%></span></td>
+                            <!-- <td class="text-center" data-title="Stock">
+                              <span class="color3 font-weight-bold">In Stock</span>
+                            </td> -->
+                            <td class="text-right" data-title="Cart">
+                              <button class="btn btn-sm cool-button" onclick="addToCart('<%=item.productId%>','<%=item.name%>' )">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              </button>
+          
+                            </td>
+                            <td class="action" data-title="Remove" onclick="removeFromWishList('<%=item.productId%>')"><a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                            
+                          </tr>
+                          <% }); %>
+                        </tbody>
+                      </table>
+                    
+  
+                </div>
+             <% }else{%>
+
+
+              <div style="display: flex; justify-content: center;">
+                <div class="col-md-lg-5">
+                    <div class="typography ">
+                      <h3>Oops! Your Wish List is Empty</h3>
+                        <img class="image" style="width: 100%; height:100%; position:relative; display: flex;  object-fit: cover;" src="../images/broken.png" alt="">
+                        
+                    </div>
+                </div>
+            </div>
+           
+            
+              <%  } %>
+
+             
+<style>
+  .typography  .image {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+           
+            background-size: cover;
+            background-position: center;
+        }
+    .typography {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+</style>
+            
+
+
+
+            </div>
+        </div>
+    </section>
+
+
+    </button>
+
+    <!--================End Cart Area =================-->
+
+    <!-- start footer Area -->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>About Us</h6>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut labore dolore
+                            magna aliqua.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Newsletter</h6>
+                        <p>Stay update with our latest</p>
+                        <div class="" id="mc_embed_signup">
+
+                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="form-inline">
+
+                                <div class="d-flex flex-row">
+
+                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Enter Email '" required="" type="email">
+
+
+                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></button>
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                            type="text">
+                                    </div>
+
+                                    <!-- <div class="col-lg-4 col-md-4">
+													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+												</div>  -->
+                                </div>
+                                <div class="info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget mail-chimp">
+                        <h6 class="mb-20">Instragram Feed</h6>
+                        <ul class="instafeed d-flex flex-wrap">
+                            <li><img src="img/i1.jpg" alt=""></li>
+                            <li><img src="img/i2.jpg" alt=""></li>
+                            <li><img src="img/i3.jpg" alt=""></li>
+                            <li><img src="img/i4.jpg" alt=""></li>
+                            <li><img src="img/i5.jpg" alt=""></li>
+                            <li><img src="img/i6.jpg" alt=""></li>
+                            <li><img src="img/i7.jpg" alt=""></li>
+                            <li><img src="img/i8.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Follow Us</h6>
+                        <p>Let us be social</p>
+                        <div class="footer-social d-flex align-items-center">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+            </div>
+        </div>
+    </footer>
+    <!-- End footer Area -->
+ 
+    <script src="../fe/js/vendor/jquery-2.2.4.min.js"></script>
+	<script src="../fe/https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	 crossorigin="anonymous"></script>
+	<script src="../fe/js/vendor/bootstrap.min.js"></script>
+	<script src="../fe/js/jquery.ajaxchimp.min.js"></script>
+	<script src="../fe/js/jquery.nice-select.min.js"></script>
+	<script src="../fe/js/jquery.sticky.js"></script>
+    <script src="../fe/js/nouislider.min.js"></script>
+	<script src="../fe/js/jquery.magnific-popup.min.js"></script>
+	<script src="../fe/js/owl.carousel.min.js"></script>
+	<!--gmaps Js-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+	<script src="../fe/js/gmaps.min.js"></script>
+	<script src="../fe/js/main.js"></script>
+
+
+    <script>
+          function addToCart(productId,name) {
+            event.preventDefault()
+      
+      var quantity = 1
+      console.log(quantity);
+      if (!isNaN(quantity) && quantity > 0) {
+        var data = {
+          productId: productId,
+          quantity: quantity,
+		  name:name
+        };
+  
+        fetch('/addToCart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(function(response) {
+            if (response.ok) {
+              Swal.fire({
+                title: 'Success',
+                text: 'Product added to cart',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'View Cart',
+                cancelButtonText: 'Continue Shopping'
+              }).then(function(result) {
+                if (result.isConfirmed) {
+                  window.location.href = '/viewCart';
+                }else {
+                  window.location.href = '/shop';
+
+                }
+              });
+            } else {
+              Swal.fire('Error', 'Failed to add product to cart', 'error');
+            }
+          })
+          .catch(function(error) {
+            console.log('Error:', error);
+            Swal.fire('Error', 'Failed to add product to cart', 'error');
+          });
+      } else {
+        Swal.fire('Error', 'Invalid quantity', 'error');
+      }
+    }
+    
+  
+
+      
+        // remove from wishList ajax call
+        function removeFromWishList(proId) {
+
+          event.preventDefault()
+
+          console.log("hereeeeeeeeeeeeee");
+          $.ajax({
+            url: '/remove-product-wishlist',
+            method: 'DELETE',
+            data: {
+              proId: proId,
+              
+            },
+            success: (response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Product removed from wishlist',
+                showConfirmButton: true,
+                timer: 3000
+              }).then(() => {
+                location.reload()
+              })
+            }
+          })
+        }
+       
+      </script>
+ 
+</body>
+
+</html>

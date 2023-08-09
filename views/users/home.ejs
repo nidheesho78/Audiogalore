@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/index-10.html  22 Nov 2019 09:58:04 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lace it</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assetsnew/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assetsnew/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assetsnew/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="../assetsnew/images/icons/site.html">
+    <link rel="mask-icon" href="../assetsnew/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="../assetsnew/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="../assetsnew/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="../assetsnew/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assetsnew/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="../assetsnew/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="../assetsnew/css/plugins/jquery.countdown.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="../assetsnew/css/style.css">
+    <link rel="stylesheet" href="../assetsnew/css/skins/skin-demo-10.css">
+    <link rel="stylesheet" href="../assetsnew/css/demos/demo-10.css">
+
+    <link rel="stylesheet" href="path/to/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="path_to_owl_carousel/owl.carousel.min.css">
+<script src="path_to_owl_carousel/owl.carousel.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.7/nouislider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lineicons@2.0.2/dist/css/LineIcons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    
+
+
+
+<!-- jQuery -->
+<script src="path/to/jquery.min.js"></script>
+
+<!-- Owl Carousel JS -->
+<script src="path/to/owl.carousel.min.js"></script>
+
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header header-8">
+
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+
+                        <a href="index.html" class="logo">
+                            <img src="../assetsnew/images/demos/demo-10/logo.png" alt="Molla Logo" width="105"
+                                height="25">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/home" class="sf-with-ul">Home</a>
+
+
+                                </li>
+
+
+                                <li>
+                                    <a href="/shop" class="sf-with-ul">Shop</a>
+
+
+                                </li>
+                                <% if (typeof user!=='undefined' && user!==null) { %>
+                                    <li>
+                                        <a href="#" class="sf-with-ul">
+                                            <%=user.fname%>
+                                        </a>
+
+                                        <ul>
+                                            <li><a href="/profile">Profile</a></li>
+                                            <li><a href="/logout">Logout</a></li>
+
+
+                                        </ul>
+                                    </li>
+                                    <% } else { %>
+                                        <li>
+                                            <a href="#" class="sf-with-ul">
+                                                Account
+                                            </a>
+    
+                                            <ul>
+                                                <li><a href="/login">Login</a></li>
+                                                <li><a href="/register">Signup</a></li>
+    
+    
+                                            </ul>
+                                        </li>
+                                        <% } %>
+
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+
+
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="/viewCart" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-shopping-cart"></i>
+
+                            </a>
+                            <a href="/viewCart" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+
+                        </a>
+                           
+                        </a>
+
+
+
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+        </header><!-- End .header -->
+
+        <main class="main">
+            <div class="container">
+                <div class="intro-slider owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl"
+                data-owl-options='{"nav": false}'>
+                <% for (const item of banner) { %>
+                <div class="intro-slide">
+                    <figure class="slide-image">
+                        <picture>
+                            <source media="(max-width: 480px)"
+                                srcset="../assetsnew/images/demos/demo-10/slider/<%= item.image %>">
+                                <img src="../banner-images/<%= item.image %>" alt="Image Desc">
+                            </picture>
+                    </figure><!-- End .slide-image -->
+            
+                    <div class="intro-content">
+                        <h3 class="intro-subtitle"><%= item.subTitle %></h3><!-- End .h3 intro-subtitle -->
+                        <h1 class="intro-title text-white"><%= item.title %></h1><!-- End .intro-title -->
+            
+                        <div class="intro-price text-white">from $<%= item.price %></div><!-- End .intro-price -->
+            
+                        <a href="<%= item.link %>" class="btn btn-white-primary btn-round">
+                            <span>SHOP NOW</span>
+                            <i class="icon-long-arrow-right"></i>
+                        </a>
+                    </div><!-- End .intro-content -->
+                </div><!-- End .intro-slide -->
+                <% } %>
+            </div><!-- End .intro-slider owl-carousel owl-simple -->
+            
+            </div><!-- End .container -->
+
+      
+
+            <div class="icon-boxes-container icon-boxes-separator bg-transparent">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-primary">
+                                    <i class="icon-rocket"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
+                                    <p>Orders $50 or more</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-primary">
+                                    <i class="icon-rotate-left"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
+                                    <p>Within 30 days</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-primary">
+                                    <i class="icon-info-circle"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">Get 20% Off 1 Item</h3><!-- End .icon-box-title -->
+                                    <p>when you sign up</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="icon-box icon-box-side">
+                                <span class="icon-box-icon text-primary">
+                                    <i class="icon-life-ring"></i>
+                                </span>
+
+                                <div class="icon-box-content">
+                                    <h3 class="icon-box-title">We Support</h3><!-- End .icon-box-title -->
+                                    <p>24/7 amazing services</p>
+                                </div><!-- End .icon-box-content -->
+                            </div><!-- End .icon-box -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .icon-boxes-container -->
+
+          
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="banner banner-cat">
+                            <a href="#">
+                                <img src="../assetsnew/images/nike2.jpg" alt="Banner">
+                            </a>
+
+                            <div class="banner-content banner-content-overlay text-center">
+                                <h3 class="banner-title font-weight-normal">BOAT</h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link"  onclick="passCategoryId('6491169a8ac58b3536ba0412')">SHOP NOW</a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-md-4 -->
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="banner banner-cat">
+                            <a href="#">
+                                <img src="../assetsnew/images/puma.jpg" alt="Banner">
+                            </a>
+
+                            <div class="banner-content banner-content-overlay text-center">
+                                <h3 class="banner-title font-weight-normal">JBL</h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link" onclick="passCategoryId('649116bf8ac58b3536ba0418')">SHOP NOW</a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-md-4 -->
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="banner banner-cat">
+                            <a href="#">
+                                <img src="../assetsnew/images/adidas2.jpg" alt="Banner">
+                            </a>
+
+                            <div class="banner-content banner-content-overlay text-center">
+                           
+                                <h3 class="banner-title font-weight-normal" >SONY</h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link" onclick="passCategoryId('649116e28ac58b3536ba041e')">SHOP NOW</a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-md-4 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-4"></div><!-- End .mb-4 -->
+
+            <div class="container">
+                <div class="heading heading-center mb-3">
+                    <h2 class="title-lg mb-2">Top Selling Products</h2><!-- End .title-lg text-center -->
+
+                   
+                </div><!-- End .heading -->
+
+
+
+                <div class="tab-content">
+                    <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel"
+                        aria-labelledby="top-all-link">
+                        <div class="products just-action-icons-sm">
+                            <div class="row">
+                              <% product.forEach((product)=>{ %>
+
+                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
+                                    <div class="product product-3 text-center">
+                                        <figure class="product-media">
+                                           
+                                            <a href="product.html">
+                                                <img src="../product-images/<%= product.images[0] %>"
+                                                    alt="Product image" class="product-image">
+                                            </a>
+
+                                            
+
+                                            <div class="product-action-vertical">
+                                                <a href="#"
+                                                onclick="addToWishList('<%=product._id%>')"
+                                                    class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                                        wishlist</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                           
+                                            <h3 class="product-title"><%=product.name%>
+                                            </h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <span class="new-price">Now ₹	<%= product.price %></span>
+                                               
+                                            </div><!-- End .product-price -->
+                                        </div><!-- End .product-body -->
+
+                                        <div class="product-footer">
+                                           
+                                           
+
+                                            <div class="product-action">
+                                                <a href="#" 	onclick="addToCart('<%=product._id%>', '<%=product.name%>')" class="btn-product btn-cart" title="Add to cart"><span>add
+                                                        to cart</span></a>
+                                                <a href="#" onclick="productDetails('<%=product._id%>')" class="btn-product btn-quickview"
+                                                    title="Quick view"><span>quick view</span></a>
+                                            </div><!-- End .product-action -->
+                                        </div><!-- End .product-footer -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-6 col-md-4 col-lg-3 -->
+
+
+                            
+
+                        
+
+
+                                <%  }) %>
+                              
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+
+           
+
+
+                <div class="more-container text-center mt-5">
+                    <a href="/shop" class="btn btn-outline-lightgray btn-more btn-round"><span>View more
+                            products</span><i class="icon-long-arrow-right"></i></a>
+                </div><!-- End .more-container -->
+            </div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- End .mb5 -->
+
+          
+
+           
+        </main><!-- End .main -->
+
+        <footer class="footer footer-dark">
+            <div class="cta bg-image bg-dark pt-4 pb-5 mb-0" style="background-image: url(assets/images/demos/demo-10/bg-2.jp);">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-10 col-md-8 col-lg-6">
+                           
+                        
+                         
+                        </div><!-- End .col-sm-10 col-md-8 col-lg-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .cta -->
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget widget-about">
+                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                    <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                    <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                    <a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                                    <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                                </div><!-- End .soial-icons -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="about.html">About Molla</a></li>
+                                    <li><a href="#">How to shop on Molla</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="login.html">Log in</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Payment Methods</a></li>
+                                    <li><a href="#">Money-back guarantee!</a></li>
+                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="#">Shipping</a></li>
+                                    <li><a href="#">Terms and conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="cart.html">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+                    <figure class="footer-payments">
+                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                    </figure><!-- End .footer-payments -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+
+
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="/home">Home</a>
+
+                        
+                    </li>
+                    <li>
+                        <a href="/shop">Shop</a>
+                       
+                    </li>
+                    <% if (typeof user!=='undefined' && user!==null) { %>
+                        <li>
+                            <a href="#" class="sf-with-ul">
+                                <%=user.fname%>
+                            </a>
+
+                            <ul>
+                                <li><a href="/profile">Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
+
+
+                            </ul>
+                        </li>
+                        <% } %>
+                   
+
+                    
+                            <li>
+                                <a href="about.html">Wishlist</a>
+
+                               
+                            </li>
+                            <li>
+                                <a href="/viewCart"">Cart</a>
+
+                              
+                            </li>
+                           
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+
+
+
+
+
+
+    <!-- Plugins JS File -->
+    <script src="../assetsnew/js/jquery.min.js"></script>
+    <script src="../assetsnew/js/bootstrap.bundle.min.js"></script>
+    <script src="../assetsnew/js/jquery.hoverIntent.min.js"></script>
+    <script src="../assetsnew/js/jquery.waypoints.min.js"></script>
+    <script src="../assetsnew/js/superfish.min.js"></script>
+    <script src="../assetsnew/js/owl.carousel.min.js"></script>
+    <script src="../assetsnew/js/bootstrap-input-spinner.js"></script>
+    <script src="../assetsnew/js/jquery.plugin.min.js"></script>
+    <script src="../assetsnew/js/jquery.magnific-popup.min.js"></script>
+    <script src="../assetsnew/js/jquery.countdown.min.js"></script>
+    <!-- Main JS File -->
+    <script src="../assetsnew/js/main.js"></script>
+    <script src="../assetsnew/js/demos/demo-10.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initiate the carousel and set the options for auto-play
+            const introSlider = $(".intro-slider");
+            introSlider.owlCarousel({
+                items: 1, // Change this value according to the number of items you want to display per slide
+                loop: true, // Enable infinite loop
+                autoplay: true, // Enable auto-play
+                autoplayTimeout: 5000, // Time between each slide change (in milliseconds)
+            });
+        });
+    </script>
+
+
+<script>
+    function addToWishList(proId) {
+        event.preventDefault();
+        $.ajax({
+            url: '/add-to-wishlist',
+            method: 'POST',
+            data: {
+                proId: proId
+            },
+            success: (response) => {
+                if (response) {
+                    // Product added to Wishlist successfully
+                    Swal.fire({
+                        position: 'centre',
+                        icon: 'success',
+                        title: 'Product added to wish list',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+
+                } else {
+                    // Error adding product to Wishlist
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Product already exist in Wishlist',
+                        timer: 2000
+                    });
+
+                }
+            }
+        })
+    }
+
+
+</script>
+
+
+
+<script>
+
+
+    function addToCart(productId, name) {
+
+        event.preventDefault();
+
+        var quantity = 1
+        console.log(quantity);
+        if (!isNaN(quantity) && quantity > 0) {
+            var data = {
+                productId: productId,
+                quantity: quantity,
+                name: name
+            };
+
+            fetch('/addToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'Product added to cart',
+                            icon: 'success',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'View Cart',
+                            cancelButtonText: 'Continue Shopping'
+                        }).then(function (result) {
+                            if (result.isConfirmed) {
+                                window.location.href = '/viewCart';
+                            }
+                        });
+                    } else {
+                        Swal.fire('Error', 'Failed to add product to cart', 'error');
+                    }
+                })
+                .catch(function (error) {
+                    console.log('Error:', error);
+                    Swal.fire('Error', 'Failed to add product to cart', 'error');
+                });
+        } else {
+            Swal.fire('Error', 'Invalid quantity', 'error');
+        }
+    }
+</script>
+
+<script>
+   function productDetails(id){
+        console.log(id);
+        window.location.href='/productDetails?id='+id
+    }
+</script>
+
+
+
+<script>
+    function passCategoryId(radioBtn) {
+        console.log("hereee");
+        var categoryId = radioBtn
+        console.log(categoryId);
+        var url = "/caregoryWiseSorting?id=" + categoryId;
+        console.log("URL: " + url);
+
+        // Redirect the user to the constructed URL
+        window.location.href = url;
+    }
+</script>
+
+
+<script>
+    // Function to handle the click event
+    function loadViewCart() {
+        // Replace the URL with the appropriate path to your viewcart page
+        window.location.href = "/viewCart";
+    }
+
+    // Get the shopping cart icon element by its class or ID
+    const cartIcon = document.querySelector(".icon-shopping-cart");
+    
+    // Attach the onclick event listener to the icon
+    cartIcon.addEventListener("click", loadViewCart);
+</script>
+In this example, we've created a JavaScript function called loadViewCart that sets the window.location.href to the desired URL, which is "/viewCart". When the shopping cart icon is clicked, the loadViewCart function will be called, and the user will be redirected to the specified view cart page.
+
+
+
+
+
+
+
+
+
+
+
+<!-- molla/index-10.html  22 Nov 2019 09:58:22 GMT -->
+
+</html>

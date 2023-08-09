@@ -1,0 +1,165 @@
+
+
+
+
+ 
+<%- include('../layouts/adminHeader.ejs') %>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Edit Products</h2>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row gx-5">
+                        <div class="col-lg-9">
+                            <section class="content-body p-xl-4">
+                                <form method="post" action="updateProductList" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Product name*</label>
+                                        <div class="col-lg-9">
+                                            <input type="text" class="form-control" placeholder="Type here" name="name" id="productName" value="<%= productData[0].name %>">
+                                            <input type="hidden" class="form-control" name="id" value="<%= productData[0]._id %>">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Description*</label>
+                                        <div class="col-lg-9">
+                                            <textarea class="form-control" placeholder="Type here" rows="4" name="description" id="description"><%= productData[0].description %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Price</label>
+                                        <div class="col-lg-4">
+                                            <input type="number" class="form-control" placeholder="₹0.00" name="price" id="price" value="<%= productData[0].price %>">
+                                        </div>
+                                    </div>
+                                     <div class="row mb-4">
+                                      <label class="col-lg-3 col-form-label">Stock</label>
+                                      <div class="col-lg-4">
+                                         <input type="number" class="form-control" name="stock" value="<%= productData[0].stock %>"  id="stock">
+                                      </div>
+                                  </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Category</label>
+                                        <div class="col-lg-9">
+                                            <select class="form-control" id="categoryDropdown" onchange="changeCategory(this.value)" name="category">
+                                                <!-- Render options for productCategory -->
+                                                <% productCategory.forEach(function(category) { %>
+                                                <option value="<%= category._id %>" <% if (productData[0].category.toString() === category._id.toString()) { %>selected<% } %>><%= category.name %></option>
+                                                <% }); %>
+
+                                                <!-- Render options for allCategory -->
+                                                <% allCategory.forEach(function(category) { %>
+                                                <option value="<%= category._id %>"><%= category.name %></option>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Status</label>
+                                        <div class="col-lg-9">
+                                            <select class="form-control" id="statusDropdown" onchange="changeStatus(this.value)" name="status">
+                                                <% if (productData[0].is_listed) { %>
+                                                <option value="listed">Listed</option>
+                                                <option value="unlisted">Unlisted</option>
+                                                <% } else { %>
+                                                <option value="unlisted">Unlisted</option>
+                                                <option value="listed">Listed</option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Main Image</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" class="form-control" name="image1">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Side View Image</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" class="form-control" name="image2">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <label class="col-lg-3 col-form-label">Top View Image</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" class="form-control" name="image3">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div id="errorMessage" style="color: red;"></div>
+                                    <button class="btn btn-primary" type="submit">Update</button>
+                                </form>
+                            </section> <!-- content-body .// -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                </div> <!-- card body end// -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<script>
+    function validateForm() {
+        // Trim input values
+        var productName = document.getElementById("productName").value.trim();
+        var description = document.getElementById("description").value.trim();
+        var price = parseFloat(document.getElementById("price").value.trim());
+        var stock = parseInt(document.getElementById("stock").value.trim());
+
+        
+        // Check for empty inputs
+        // Check for empty inputs
+        if (productName === "" || description === "" || isNaN(price) || isNaN(stock)) {
+            document.getElementById("errorMessage").innerText = "Please fill in all required fields and provide a valid price and stock.";
+            return false;
+        }
+
+        
+        // Check if price is negative
+        if (price <= 0) {
+            document.getElementById("errorMessage").innerText = "Price cannot be a negative value.";
+            return false;
+        }
+        // Check if stock is less than the minimum allowed value
+        var minimumStock = 0; // Set your desired minimum stock value here
+        if (stock < minimumStock) {
+            document.getElementById("errorMessage").innerText = "Stock must be at least " + minimumStock + ".";
+            return false;
+        }
+        
+        // Clear error message
+        document.getElementById("errorMessage").innerText = "";
+    }
+</script>
+
+
+
+
+
+
+  
+  
+
+
+
+<%- include('../layouts/adminFooter.ejs') %>
+
+
+
+
+
+
+
+
+
+ 

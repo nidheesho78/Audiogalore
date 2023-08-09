@@ -1,0 +1,552 @@
+<%-include('../layouts/profileHeader.ejs')%>
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">Address</h1>
+					<ol class="breadcrumb">
+						<li><a href="/">Home</a></li>
+						<li class="active">My Account Address</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        /* CSS styles for the popup form */
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f8f8f8;
+            border-radius: 0px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            z-index: 10000;
+            padding: 40px;
+            color: #000000;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .form-container {
+            height: 100%;
+        }
+
+        .form-popup input[type="text"],
+        .form-popup input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .form-popup .btn-group {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .form-popup .btn {
+            margin-left: 10px;
+        }
+
+        .form-popup::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .form-popup::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        .form-popup::-webkit-scrollbar-thumb {
+            background-color: #888;
+        }
+
+        .form-popup::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+    </style>
+
+
+
+
+
+    <section class="user-dashboard page-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-inline dashboard-menu text-center">
+                        <li><a href="/profile">Dashboard</a></li>
+                        <li><a href="/profileOrderList">Orders</a></li>
+                        <li><a class="active" href="/profileAddress">Address</a></li>
+                        <li><a href="/profileDetails">Profile Details</a></li>
+                    <li><a href="/wallet">Transactions</a></li>
+
+                    </ul>
+                    <div class="dashboard-wrapper user-dashboard">
+                        <div class="table-responsive">
+                            <table class="table" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Mobile Number</th>
+                                        <th>Address</th>
+                                        <th>Pincode</th>
+                                        <th>State</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% address.forEach((address)=>{%>
+
+                                        <tr>
+                                            <td>
+                                                <%= address.name %>
+                                            </td>
+                                            <td>
+                                                <%= address.mobileNumber %>
+                                            </td>
+                                            <td>
+                                                <%= address.address %>, <%= address.locality %>, <%= address.city %>
+                                            </td>
+                                            <td>
+                                                <%= address.pincode %>
+                                            </td>
+                                            <td>
+                                                <%= address.state %>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-default"
+                                                        onclick="editAddress(<%= JSON.stringify(address) %>)">
+                                                        <i class="tf-pencil2" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-default"
+                                                        onclick="deleteAddress('<%= address._id %>')">
+                                                        <i class="tf-ion-close" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <%})%>
+
+
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 20px;">
+                        <button type="button" class="btn btn-primary" onclick="addAddress()">Add Address</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
+        <!-- Popup form HTML edit address -->
+        <div class="form-popup" id="popupForm">
+            <div class="form-container">
+                <h3>Edit Adresss</h3>
+                <input type="hidden" id="idInput" placeholder="Name">
+
+                <input type="text" id="nameInput" placeholder="Name">
+                <input type="text" id="mobileNumberInput" placeholder="Mobile Number">
+                <input type="text" id="addressInput" placeholder="Address">
+                <input type="text" id="localityInput" placeholder="Locality">
+                <input type="text" id="cityInput" placeholder="City">
+                <input type="text" id="pincodeInput" placeholder="Pincode">
+                <input type="text" id="stateInput" placeholder="State">
+
+                <div class="btn-group">
+                    <button type="button" class="btn" onclick="closePopupedit()">Close</button>
+                    <button type="button" class="btn" onclick="saveAddressedit()">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Popup form HTML add address -->
+        <div class="form-popup" id="popupFormadd">
+            <div class="form-container">
+                <h3>Add Adresss</h3>
+                <input type="hidden" id="idInput" placeholder="Name">
+
+                <input type="text" id="nameInputadd" placeholder="Name">
+                <input type="text" id="mobileNumberInputadd" placeholder="Mobile Number">
+                <input type="text" id="addressInputadd" placeholder="Address">
+                <input type="text" id="localityInputadd" placeholder="Locality">
+                <input type="text" id="cityInputadd" placeholder="City">
+                <input type="text" id="pincodeInputadd" placeholder="Pincode">
+                <input type="text" id="stateInputadd" placeholder="State">
+
+                <div class="btn-group">
+                    <button type="button" class="btn" onclick="closePopup()">Close</button>
+                    <button type="button" class="btn" onclick="saveAddress()">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <footer class="footer section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="social-media">
+                        <li>
+                            <a href="https://www.facebook.com/themefisher">
+                                <i class="tf-ion-social-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/themefisher">
+                                <i class="tf-ion-social-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.twitter.com/themefisher">
+                                <i class="tf-ion-social-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.pinterest.com/themefisher/">
+                                <i class="tf-ion-social-pinterest"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="footer-menu text-uppercase">
+                        <li>
+                            <a href="contact.html">CONTACT</a>
+                        </li>
+                        <li>
+                            <a href="shop.html">SHOP</a>
+                        </li>
+                        <li>
+                            <a href="pricing.html">Pricing</a>
+                        </li>
+                        <li>
+                            <a href="contact.html">PRIVACY POLICY</a>
+                        </li>
+                    </ul>
+                    <p class="copyright-text">Copyright &copy;2021, Designed &amp; Developed by <a
+                            href="https://themefisher.com/">Themefisher</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- 
+    Essential Scripts
+    =====================================-->
+
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+    <script>
+        function editAddress(address) {
+            console.log("here", address);
+
+            // Populate the form inputs with the address details
+            document.getElementById("idInput").value = address._id;
+            document.getElementById("nameInput").value = address.name;
+            document.getElementById("mobileNumberInput").value = address.mobileNumber;
+            document.getElementById("addressInput").value = address.address;
+            document.getElementById("localityInput").value = address.locality;
+            document.getElementById("cityInput").value = address.city;
+            document.getElementById("pincodeInput").value = address.pincode;
+            document.getElementById("stateInput").value = address.state;
+
+            // Show the popup form
+            var popupForm = document.getElementById("popupForm");
+            popupForm.style.display = "block";
+        }
+
+        function closePopupedit() {
+            // Close the popup form
+            var popupForm = document.getElementById("popupForm");
+            popupForm.style.display = "none";
+        }
+
+        function saveAddressedit() {
+            // Get the input values
+            var id = document.getElementById("idInput").value;
+            var name = document.getElementById("nameInput").value;
+            var mobileNumber = document.getElementById("mobileNumberInput").value;
+            var address = document.getElementById("addressInput").value;
+            var locality = document.getElementById("localityInput").value;
+            var city = document.getElementById("cityInput").value;
+            var pincode = document.getElementById("pincodeInput").value;
+            var state = document.getElementById("stateInput").value;
+
+            // Validate the input values
+            if (name.trim() === "") {
+                alert("Name cannot be empty");
+                return;
+            }
+            if (!/^[a-zA-Z ]+$/.test(name)) {
+                alert("Name should not contain numbers or special characters");
+                return;
+            }
+            if (mobileNumber.trim() === "") {
+                alert("Mobile Number cannot be empty");
+                return;
+            }
+            if (!/^\+?\d{1,12}$/.test(mobileNumber)) {
+                alert("Mobile Number should contain a maximum of 12 numbers only");
+                return;
+            }
+            if (address.trim() === "") {
+                alert("Address cannot be empty");
+                return;
+            }
+            if (locality.trim() === "") {
+                alert("Locality cannot be empty");
+                return;
+            }
+            if (city.trim() === "") {
+                alert("City cannot be empty");
+                return;
+            }
+            if (pincode.trim() === "") {
+                alert("Pincode cannot be empty");
+                return;
+            }
+            if (!/^\d{6}$/.test(pincode)) {
+                alert("Pincode should contain exactly 6 digits");
+                return;
+            }
+            if (state.trim() === "") {
+                alert("State cannot be empty");
+                return;
+            }
+
+            var formData = {
+                id: id,
+                name: name,
+                mobileNumber: mobileNumber,
+                address: address,
+                locality: locality,
+                city: city,
+                pincode: pincode,
+                state: state
+            };
+
+            // Send the form data to the server using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/updateAddress", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Reload the section of the address table
+                    var addressTableSection = document.getElementById("addressTableSection");
+                    addressTableSection.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send(JSON.stringify(formData));
+
+            closePopupedit();
+            location.reload();
+        }
+
+        //delete address
+        function deleteAddress(address) {
+            // Create an object with the address ID
+            var formData = {
+                addressId: address
+            };
+
+            // Send the form data to the server using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/deleteAddress", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Update the specific area with the response from the server
+                    var addressTableRow = document.getElementById("addressTableRow_" + addressId);
+                    var newAddressTableRow = xhr.responseText;
+
+                    // Replace the old address table row with the updated one
+                    if (addressTableRow && newAddressTableRow) {
+                        var tempElement = document.createElement('tr');
+                        tempElement.innerHTML = newAddressTableRow;
+                        addressTableRow.parentNode.replaceChild(tempElement.firstChild, addressTableRow);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(formData));
+            location.reload();
+        }
+    </script>
+
+
+    <!-- add address -->
+
+
+
+    <script>
+        function addAddress() {
+            // Show the popup form
+            document.getElementById("popupFormadd").style.display = "block";
+        }
+
+        function closePopup() {
+            // Close the popup form
+            document.getElementById("popupFormadd").style.display = "none";
+        }
+
+        function saveAddress() {
+
+
+
+        
+            // Get the form data
+            var name = document.getElementById("nameInputadd").value;
+            var mobileNumber = document.getElementById("mobileNumberInputadd").value;
+            var address = document.getElementById("addressInputadd").value;
+            var locality = document.getElementById("localityInputadd").value;
+            var city = document.getElementById("cityInputadd").value;
+            var pincode = document.getElementById("pincodeInputadd").value;
+            var state = document.getElementById("stateInputadd").value;
+
+
+
+
+            // Validate the input values
+            if (name.trim() === "") {
+                alert("Name cannot be empty");
+                return;
+            }
+            if (!/^[a-zA-Z ]+$/.test(name)) {
+                alert("Name should not contain numbers or special characters");
+                return;
+            }
+            if (mobileNumber.trim() === "") {
+                alert("Mobile Number cannot be empty");
+                return;
+            }
+            if (!/^\+?\d{1,12}$/.test(mobileNumber)) {
+                alert("Mobile Number should contain a maximum of 12 numbers only");
+                return;
+            }
+            if (address.trim() === "") {
+                alert("Address cannot be empty");
+                return;
+            }
+            if (locality.trim() === "") {
+                alert("Locality cannot be empty");
+                return;
+            }
+            if (city.trim() === "") {
+                alert("City cannot be empty");
+                return;
+            }
+            if (pincode.trim() === "") {
+                alert("Pincode cannot be empty");
+                return;
+            }
+            if (!/^\d{6}$/.test(pincode)) {
+                alert("Pincode should contain exactly 6 digits");
+                return;
+            }
+            if (state.trim() === "") {
+                alert("State cannot be empty");
+                return;
+            }
+
+            // Create a data object to send in the AJAX request
+            var data = {
+                name: name,
+                mno: mobileNumber,
+                address: address,
+                locality: locality,
+                city: city,
+                pincode: pincode,
+                state: state
+            };
+
+            // Make an AJAX call to the "/addaddress" URL
+            // Replace <your_addaddress_url> with the actual URL to handle the request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/submitAddress", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Request completed successfully
+                    console.log(xhr.responseText); // You can do something with the response here
+                    closePopup(); // Close the popup form after successful save
+                }
+            };
+            xhr.send(JSON.stringify(data));
+            location.reload()
+
+        }
+
+    </script>
+
+
+<script>
+    $(document).ready(function() {
+    $.noConflict();
+      $('#myTable').DataTable({
+        "paging": true,          // Enable pagination
+        "pageLength": 5,        // Number of rows per page
+        "lengthMenu": [10, 25, 50, 75, 100],  // Dropdown options for rows per page
+
+      });
+    });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+
+    </html>

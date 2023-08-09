@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:21 GMT -->
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="../assets/css/main.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+   
+    <style>
+  /* Add hover effect to table rows */
+.table-hover tbody tr:hover {
+    background-color: #46f1be;
+}
+.tableHead {
+    background-color:#46f1be; /* Set your desired background color for the header row */
+  
+  }
+/* Add spacing between table cells */
+.table td,
+.table th {
+    padding: 8px;
+    vertical-align: top;
+}
+
+/* Style the dropdown button */
+.dropdown .btn-light {
+    border: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 18px;
+}
+
+ .table tbody td {
+    border: 1px solid #dee2e6; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+    align-items: center;
+  }
+/* Style the dropdown menu items */
+.dropdown-menu a.dropdown-item {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Add margin to the dropdown menu items */
+.dropdown-menu a.dropdown-item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+</style>   
+       
+<%- include('../layouts/adminHeader.ejs') %>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order List </h2>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+               
+            </div>
+            <div class="card mb-4">
+          
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="myTable">
+                            <thead>
+                                <tr class="tableHead">
+                                  
+                                    <th scope="col">Name</th>
+                                 
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-center"> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%orders.forEach((order)=>{%>
+
+                                    <tr>
+                                        <td><b><%=order.orders.name%></b></td>
+                                    <td>₹<%=order.orders.totalPrice%></td>
+                                    <td><span class="badge rounded-pill alert-warning"><%=order.orders.orderStatus%></span></td>
+                                    <td><%= new Date(order.orders.createdAt).toLocaleDateString('en-US') %></td>
+                                    <td class="text-end">
+                                        <a href="/admin/orderDetails?id=<%=order.orders._id%>" class="btn btn-md rounded font-sm">Detail</a>
+                                        <div class="dropdown">
+                                            <a href="" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                            <div class="dropdown-menu">
+                                                <%if(order.orders.orderStatus=='Placed'){%>
+                                                <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Direct Cancel')">Cancel Order</a>
+
+                                                <a class="dropdown-item" onclick="orderStatus('<%=order.orders._id%>','Dispatched')">Dispatched</a>
+                                                <%}else if(order.orders.orderStatus=='Dispatched'){%>
+                                                <a class="dropdown-item" onclick="orderStatus('<%=order.orders._id%>','Delivered')">Delivered</a>
+                                                <%}else if(order.orders.orderStatus=='Cancel Requested'){%>
+                                                    <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Cancel Accepted')"> Accept</a>
+                                                    <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Cancel Declined')">Decline</a>
+                                                    <%}else if(order.orders.orderStatus=='Return Requested'){%>
+                                                        <a class="dropdown-item" onclick="returOrder('<%=order.orders._id%>','Return Accepted')"> Accept Return</a>
+                                                    <a class="dropdown-item" onclick="returnOrder('<%=order.orders._id%>','Return Declined')">Decline Return</a>
+                                                    
+                                                    <%}%>
+                                                   
+
+
+
+
+                                            </div>
+                                        </div> <!-- dropdown //end -->
+
+                                    </td>
+                                </tr>
+                                <%  })%>
+                               
+                               
+                                
+                                
+                                
+                               
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive //end -->
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+          
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="../assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/vendors/select2.min.js"></script>
+    <script src="../assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="../assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="../assets/js/main.js" type="text/javascript"></script>
+
+
+    <script>
+  
+  
+        function orderStatus(orderId, status)
+        {
+          console.log(orderId, status);
+          $.ajax({
+            url:'/admin/orderStatus',
+            method:'put',
+            data: {
+              orderId: orderId,
+              status: status
+            },
+            success:(response)=>
+            {
+              if(response)
+              {
+                location.reload()
+              }
+            }
+          })
+        }
+        function cancelStatus(orderId, status)
+        {
+          console.log(orderId, status);
+          $.ajax({
+            url:'/admin/cancelOrder',
+            method:'put',
+            data: {
+              orderId: orderId,
+              status: status
+            },
+            success:(response)=>
+            {
+              if(response)
+              {
+                location.reload()
+              }
+            }
+          })
+        }
+
+        function returnOrder(orderId, status)
+    {
+      console.log(orderId, status);
+      $.ajax({
+        url:'/admin/returnOrder',
+        method:'put',
+        data: {
+          orderId: orderId,
+          status: status
+        },
+        success:(response)=>
+        {
+          if(response)
+          {
+            location.reload()
+          }
+        }
+      })
+    }
+        
+        
+        // $(document).ready(function () {
+        //   $('#dtOrderExample').DataTable({
+        //     "order": [[ 3, "desc" ]]
+        //   });
+        //     $('.dataTables_length').addClass('bs-select');
+        // });
+        
+        </script>
+
+
+<script>
+    $(document).ready(function() {
+    $.noConflict();
+      $('#myTable').DataTable({
+        "paging": true,          // Enable pagination
+        "pageLength": 10,        // Number of rows per page
+        "lengthMenu": [10, 25, 50, 75, 100],  // Dropdown options for rows per page
+
+      });
+    });
+    </script>
+    
+
+
+
+
+</body>
+
+
+<!-- Mirrored from wp.alithemes.com/html/evara/evara-backend/page-orders-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Aug 2021 15:33:22 GMT -->
+</html>

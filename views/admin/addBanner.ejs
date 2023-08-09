@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Smart Wrist</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="../assets/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <%- include('../layouts/adminHeader.ejs') %>	
+
+    <main class="main-wrap" style="margin-left: -22px;">
+        
+        <form action="/admin/addBanner" method="post" enctype="multipart/form-data" id="myform">
+        <section class="content-main" style="margin-left: 26px;">
+        
+            <div class="row">
+                <div class="col-6" >
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Banner</h2>
+                        <div>
+                            <input class="btn btn-md rounded font-sm hover-up" value="Publish" type="submit"></input>
+
+              
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-body" style="width: 560px;">
+                            <div class="row">
+                                <!-- <div class="col-md-3">
+                                    <h6>1. General info</h6>
+                                </div> -->
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Product title</label>
+                                        <input type="text" placeholder="Type here" class="form-control" name="title" id="title">
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Sub title</label>
+                                        <input type="text" placeholder="Type here" class="form-control" name="subTitle" id="subTitle" >
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Price</label>
+                                        <input type="number" placeholder="Type here" class="form-control" name="price" id="price">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Link</label>
+                                        <input placeholder="Type here" class="form-control" rows="4" name="link" id="link" >
+                                    </div>
+                                  
+                                </div> <!-- col.// -->
+                            </div> <!-- row.// -->
+                            <hr class="mb-4 mt-0">
+                           <!-- row.// -->
+                            
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <!-- <div class="col-md-3">
+                                    <h6>4. Media</h6>
+                                </div> -->
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <label class="form-label">Main Image</label>
+                                        <input class="form-control" type="file" name="image" id="image">
+                                    </div>
+                                </div>
+                         <!-- col.// -->
+                            </div> <!-- .row end// -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        <p id="message-element"><%=(typeof message!=='undefined')?message:""%></p>
+        </section> <!-- content-main end// -->
+
+    </main>
+
+    <script>
+        // JavaScript to remove the message when the user starts typing in the input fields
+        const messageElement = document.getElementById('message-element');
+        const formInputs = document.getElementById('myform').querySelectorAll('input, textarea');
+    
+        formInputs.forEach((inputField) => {
+            inputField.addEventListener('input', () => {
+                messageElement.style.display = 'none';
+            });
+        });
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    <!-- <script>
+        let regex = /^(?!\s*$).+/;
+      
+        let description = document.getElementById("description");
+        let link = document.getElementById("link");
+      
+        let titleError = document.getElementById("title-error");
+        let descriptionError = document.getElementById("description-error");
+        let linkError = document.getElementById("link-error");
+      
+        let myform = document.getElementById("myform");
+      
+        function titleValidation() {
+          let name = document.getElementById("name").value;
+          let nameInput = document.getElementById("name");
+          if (name.length == 0) {
+            titleError.innerHTML = "Title is required";
+            titleError.style.color = "red";
+            nameInput.style.border = "solid 2px red";
+            return false;
+          }
+          if (!name.match(regex)) {
+            titleError.innerHTML = "Write valid Title";
+            titleError.style.color = "red";
+            nameInput.style.border = "solid 2px red";
+            return false;
+          }
+          titleError.innerHTML = "";
+          titleError.style.color = "green";
+          nameInput.style.border = "solid 2px green";
+          return true;
+        }
+      
+        function descriptionValidation() {
+          let name = document.getElementById("description").value;
+          let nameInput = document.getElementById("description");
+          if (name.length == 0) {
+            descriptionError.innerHTML = "Description is required";
+            descriptionError.style.color = "red";
+            nameInput.style.border = "solid 2px red";
+            return false;
+          }
+          if (!name.match(regex)) {
+            descriptionError.innerHTML = "Write valid Description";
+            descriptionError.style.color = "red";
+            nameInput.style.border = "solid 2px red";
+            return false;
+          }
+          descriptionError.innerHTML = "";
+          descriptionError.style.color = "green";
+          nameInput.style.border = "solid 2px green";
+          return true;
+        }
+      
+        myform.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (!titleValidation() || !descriptionValidation()) {
+            return false;
+          } else {
+            myform.submit();
+          }
+        });
+      </script> -->
+
+
+
+
+
+    <script>
+        // Function to trim all form fields and check if they are empty
+        function validateForm() {
+          var title = document.getElementById('title').value.trim();
+          var subTitle = document.getElementById('subTitle').value.trim();
+          var price = document.getElementById('price').value.trim();
+          var link = document.getElementById('link').value.trim();
+
+          var image = document.getElementById('image').value; // No need to trim file input
+
+          console.log(price);
+          
+          if (title === '' || subTitle === '' || price === '' || image === '' || link==='') {
+            alert('All fields are required.');
+            return false;
+          }
+          
+          // Check if price is a positive number
+          if (isNaN(price) || parseFloat(price) <= 0) {
+            alert('Price should be a positive number.');
+            return false;
+          }
+          
+          // Check if the title and subtitle do not exceed 30 characters
+          if (title.length > 30 || subTitle.length > 30) {
+            alert('Title and Subtitle should not exceed 30 characters.');
+            return false;
+          }
+
+
+          var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    if (!allowedExtensions.test(image)) { // Use test() method instead of exec()
+      alert('Invalid image file. Please select a valid image file (jpg, jpeg, png, gif).');
+      return false;
+    }
+          
+          return true;
+        }
+      
+        // Attach the validation function to the form submit event
+        document.getElementById('myform').addEventListener('submit', function(event) {
+          if (!validateForm()) {
+            event.preventDefault();
+          }
+        });
+      </script>
+      
+    <script src="../assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/vendors/select2.min.js"></script>
+    <script src="../assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="../assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="../assets/js/main.js" type="text/javascript"></script>
+    
+</body>
+
+
+</html>

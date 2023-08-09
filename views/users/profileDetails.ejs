@@ -1,0 +1,674 @@
+<style>
+   .card .front {
+    /* Existing styles for the front side */
+    /* Add other necessary styles */
+    background-image: linear-gradient(189deg, #c1d8ff 23%, #ffffff 114%);
+    /* Center the content horizontally and vertically */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* ... */
+  }
+
+  /* Additional styles for the "Check Here" text */
+  .head {
+    font-size: 35px;
+    /* Add any other styles you want for the "Check Here" text */
+  }
+  /* ... Your existing styles ... */
+
+  .card .back {
+    /* Style for the back side of the card */
+    /* Existing styles for the back side */
+    background-color: #f8f8f8;
+    color: #000000;
+    /* Add necessary styles for the flip animation */
+    transform: rotateY(180deg);
+    /* Add styles for colorful and looping letters */
+    background-image: linear-gradient(-45deg, #ff6e6e, #ffa17d, #ffcd94, #f6fcd3, #b5ffd9, #d4c3f6);
+    background-size: 600% 100%;
+    animation: gradientAnimation 10s ease infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+
+  .card .back h1 {
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  .card .back h2 {
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-align: center;
+  }
+
+  .card .back span {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-top: 20px;
+  }
+   .looping-text {
+    display: inline-block;
+    animation: loopAnimation 5s linear infinite;
+  }
+
+  @keyframes loopAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* ... Your existing styles ... */
+</style>
+
+
+
+
+
+
+
+<style>
+   .wallet-image {
+    max-width: 100%;
+    max-height: 100%;
+    /* Add any other styles for the image */
+  }
+  /* ... Existing CSS code ... */
+
+.card {
+  /* Existing styles for the card */
+  /* Add necessary styles for the flip animation */
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.card .front,
+.card .back {
+  /* Style for front and back sides of the card */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card .front {
+  /* Style for the front side of the card */
+  /* Existing styles for the front side */
+  background-image: linear-gradient(189deg, #c1d8ff 23%, #ffffff 114%);
+  /* Add necessary styles for the flip animation */
+}
+
+.card .back {
+  /* Style for the back side of the card */
+  /* Existing styles for the back side */
+  background-color: #6e6e6e;
+  color: #003279;
+  /* Add necessary styles for the flip animation */
+  transform: rotateY(180deg);
+}
+
+/* Add styles to flip the card on hover */
+.card:hover {
+  transform: rotateY(180deg);
+}
+
+  /* Add a glowing effect to the "MY WALLET" section */
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Set the initial glowing color and spread */
+    animation: glowing 2s infinite; /* Apply the glowing animation */
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 10px #0000ff80; /* Start with the initial glowing color and spread */
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 0, 255, 0.7); /* Intermediate glowing color and spread */
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Return to the initial glowing color and spread */
+    }
+}
+
+  .wallet-top {
+    margin-top: 30px;
+    text-align: center;
+    margin-right: 30px;
+    margin-left: 40px;
+    margin-bottom: 50px;
+  }
+
+
+  .inside {
+    width: 100%;
+
+
+  }
+
+
+
+  button {
+    border: 0;
+    transition: 0.3s;
+  }
+
+  h3 {
+    color: #00000061;
+    font-size: 13px;
+  }
+
+  .card span {
+
+    position: absolute;
+
+    bottom: 10px;
+    font-weight: 300;
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+  }
+
+  .card h2 {
+    color: rgb(8, 225, 218);
+    font-weight: 300;
+  }
+
+  .card i {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    font-size: 22px;
+    color: white;
+  }
+  
+
+  .wallet-top h1 {
+    color: #09f0d9e8;
+    font-size: 35px;
+  }
+
+  .wallet-top .card {
+    background-image: linear-gradient(189deg, #c1d8ff 23%, #ffffff 114%);
+    width: 100%;
+    height: 250px;
+    box-shadow: 14px 11px 25px -9px #272b32b0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border-color: azure;
+    position: relative;
+    border: 0;
+
+  }
+  .form-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f8f8f8;
+        border-radius: 0px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        z-index: 10000;
+        padding: 40px;
+        color: #000000;
+        overflow-y: auto;
+        max-height: 80vh;
+    }
+
+    .form-container {
+        height: 100%;
+    }
+
+    .form-popup input[type="text"],
+    .form-popup input[type="number"],
+    .form-popup input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .form-popup .btn-group {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .form-popup .btn {
+        margin-left: 10px;
+    }
+
+    .form-popup::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .form-popup::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+
+    .form-popup::-webkit-scrollbar-thumb {
+        background-color: #888;
+    }
+
+    .form-popup::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+</style>
+
+
+
+
+<%-include('../layouts/profileHeader.ejs')%>
+
+
+
+<section class="page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content">
+					<h1 class="page-name">Profile</h1>
+					<ol class="breadcrumb">
+						<li><a href="/">Home</a></li>
+						<li class="active">My Account Profile</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+  <section class="user-dashboard page-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="list-inline dashboard-menu text-center">
+            <li><a href="/profile">Dashboard</a></li>
+            <li><a href="/profileOrderList">Orders</a></li>
+            <li><a href="/profileAddress">Address</a></li>
+            <li><a class="active" href="/profileDetails">Profile Details</a></li>
+                    <li><a href="/wallet">Transactions</a></li>
+
+          </ul>
+          <section class="user-dashboard page-wrapper">
+            <div class="container">
+              <div class="row">
+                <div class="dashboard-wrapper dashboard-user-profile">
+                  <div class="media">
+
+                    <div class="col-md-2">
+                      <div class="pull-left text-center" href="#!">
+                        <img class="media-object user-img" src="../theme/images/pp.webp" alt="Image">
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-5">
+                      <ul class="user-profile-list" style="margin-top: 99px;margin-left: 36px;">
+                        <h4>Hey It's Me!</h4>
+                        <li><span>Full Name:</span>
+                          <%=user.fname%>
+                            <%=user.lname%>
+                        </li>
+                        <li><span>Email:</span>
+                          <%=user.email%>
+                        </li>
+                        <li><span>Phone:</span>
+                          <%=user.mobile%>
+                        </li>
+                        <li>
+                          <span>Edit Info:</span>
+                          <i class="fas fa-edit edit-icon" onclick="openEditPopup()"></i>
+                        </li>
+                        <li>
+                          <span>Change Password:</span>
+                          <i class="fas fa-lock password-icon" onclick="openPasswordPopup()"></i>
+
+                        </li>
+                      </ul>
+                    </div>
+
+                   <div class="col-md-5">
+  <div class="col-6">
+    <div class="inside">
+      <div class="wallet-top">
+        <div class="card">
+          <div class="front"> <!-- Front side of the card -->
+             <img class="wallet-image" src="../images/wallet.png" alt="Wallet Image">
+           
+          </div>
+          <div class="back">
+
+             <h1><%= user.fname %></h1> 
+            <h2>₹<%= user.wallet %></h2>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Modal Popup -->
+  <div id="editPopup" class="form-popup">
+    <div class="form-container">
+      <span class="close" onclick="closeEditPopup()">&times;</span>
+      <h2>Edit Info</h2>
+      <form id="editForm" onsubmit="saveInfo(); return false;">
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" value="<%=user.fname%>" required>
+
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" value="<%=user.lname%>" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" value="<%=user.email%>" required>
+        
+        <label for="mobile">Mobile:</label>
+        <input type="text" id="mobile" value="<%=user.mobile%>" required>
+
+        <div class="message-container">
+          <span id="editMessage" class="message"></span>
+        </div>
+        
+        <div class="btn-group">
+          <button type="submit" class="btn">Save</button>
+          <button type="button" class="btn" onclick="closeEditPopup()">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- password popup -->
+  
+  <!-- Your existing HTML code ... -->
+
+<!-- password popup -->
+
+<div id="passwordPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fefefe; border: 1px solid #888; width: 400px; padding: 20px; border-radius: 5px;">
+  <!-- Add the IDs to the input fields for the new password and confirm password -->
+  <span style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;" onclick="closePasswordPopup()">&times;</span>
+  <h2 style="margin-top: 0;">Change Password</h2>
+  <form method="POST" action="/editPassword" id="newPassForm" onsubmit="changePassword(); return false;">
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+    <label for="confPass">Confirm Password:</label>
+    <input type="password" id="confPass" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+    <div id="messageBlock" style="display: none; color: red; margin-bottom: 15px;"></div>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <button type="submit" style="margin-right: 10px;">Save</button>
+      <button type="button" onclick="closePasswordPopup()">Close</button>
+    </div>
+  </form>
+</div>
+
+<!-- Your existing HTML code ... -->
+
+  
+  
+  
+  
+
+
+
+  <footer class="footer section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="social-media">
+            <li>
+              <a href="https://www.facebook.com/themefisher">
+                <i class="tf-ion-social-facebook"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/themefisher">
+                <i class="tf-ion-social-instagram"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.twitter.com/themefisher">
+                <i class="tf-ion-social-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.pinterest.com/themefisher/">
+                <i class="tf-ion-social-pinterest"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="footer-menu text-uppercase">
+            <li>
+              <a href="contact.html">CONTACT</a>
+            </li>
+            <li>
+              <a href="shop.html">SHOP</a>
+            </li>
+            <li>
+              <a href="pricing.html">Pricing</a>
+            </li>
+            <li>
+              <a href="contact.html">PRIVACY POLICY</a>
+            </li>
+          </ul>
+          <p class="copyright-text">Copyright &copy;2021, Designed &amp; Developed by <a
+              href="https://themefisher.com/">Themefisher</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- 
+    Essential Scripts
+    =====================================-->
+
+  <!-- Main jQuery -->
+  <script src="plugins/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap 3.1 -->
+  <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Touchpin -->
+  <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+  <!-- Instagram Feed Js -->
+  <script src="plugins/instafeed/instafeed.min.js"></script>
+  <!-- Video Lightbox Plugin -->
+  <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+  <!-- Count Down Js -->
+  <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+  <!-- slick Carousel -->
+  <script src="plugins/slick/slick.min.js"></script>
+  <script src="plugins/slick/slick-animation.min.js"></script>
+
+  <!-- Google Mapl -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+  <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+  <!-- Main Js File -->
+  <script src="js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+  <script>
+    // Open the edit popup
+function openEditPopup() {
+  var popup = document.getElementById("editPopup");
+  popup.style.display = "block";
+}
+
+// Close the edit popup
+function closeEditPopup() {
+  var popup = document.getElementById("editPopup");
+  popup.style.display = "none";
+}
+
+// Save the edited info using AJAX
+function saveInfo() {
+  var fname = document.getElementById("fname").value.trim();
+  var lname = document.getElementById("lname").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var mobile = document.getElementById("mobile").value.trim();
+  var messageBlock = document.getElementById("editMessage");
+
+  // Check for empty fields
+  if (fname === '' || lname === '' || email === '' || mobile === '') {
+    messageBlock.innerText = "Please fill in all the fields.";
+    return;
+  }
+
+  // Perform AJAX request to update user info
+  $.ajax({
+    url: "/editInfo",
+    type: "POST",
+    data: { fname: fname, lname: lname, email: email, mobile: mobile },
+    success: function(response) {
+      // Handle success response
+      messageBlock.innerText = "User info updated successfully!";
+      messageBlock.style.color = "green";
+      closeEditPopup();
+      location.reload();
+    },
+    error: function(error) {
+      // Handle error response
+      messageBlock.innerText = "Error updating user info: " + error;
+      messageBlock.style.color = "red";
+      location.reload();
+    }
+  });
+}
+
+
+  </script>
+
+
+
+
+  // Open the password popup
+<script>
+  // Open the password popup
+  function openPasswordPopup() {
+    var popup = document.getElementById("passwordPopup");
+    popup.style.display = "block";
+  }
+
+  // Close the password popup
+  function closePasswordPopup() {
+    var popup = document.getElementById("passwordPopup");
+    popup.style.display = "none";
+  }
+
+  // Password validation function
+  function isPasswordValid(password) {
+    // Add your password validation criteria here
+    // For example, you can check for minimum length and presence of uppercase, lowercase, and numbers
+    const minLength = 8;
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const numberRegex = /\d/;
+
+    return (
+      password.length >= minLength &&
+      uppercaseRegex.test(password) &&
+      lowercaseRegex.test(password) &&
+      numberRegex.test(password)
+    );
+  }
+
+  // Save the new password using AJAX
+  function changePassword() {
+    var newPassword = document.getElementById("newPassword").value.trim();
+    var confirmPassword = document.getElementById("confPass").value.trim();
+    var messageBlock = document.getElementById("messageBlock");
+
+    // Validate that the new password and confirm password match
+    if (newPassword !== confirmPassword || newPassword === '') {
+      messageBlock.innerText = "New password and confirm password do not match or cannot be empty.";
+      messageBlock.style.display = "block";
+      return;
+    }
+
+    // Validate the new password
+    if (!isPasswordValid(newPassword)) {
+      messageBlock.innerText = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.";
+      messageBlock.style.display = "block";
+      return;
+    }
+
+    // Perform AJAX request to update the password
+    $.ajax({
+      url: "/editPassword", // Replace this with the correct URL for your server-side code
+      type: "POST",
+      data: { newPass: newPassword, confPass: confirmPassword },
+      success: function (response) {
+        // Handle success response
+        messageBlock.innerText = "Password updated successfully!";
+        messageBlock.style.color = "green";
+        messageBlock.style.display = "block";
+        setTimeout(function () {
+          closePasswordPopup();
+        }, 3000);
+      },
+      error: function (error) {
+        // Handle error response
+        messageBlock.innerText = "Error updating password: " + error;
+        messageBlock.style.color = "red";
+        messageBlock.style.display = "block";
+        console.error("Error updating password:", error);
+      },
+    });
+  }
+</script>
+
+
+
+
+
+  </body>
+
+  </html>

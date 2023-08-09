@@ -1,0 +1,363 @@
+<style>
+    /* ... (existing styles) ... */
+
+    /* Table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc; /* Add border to the entire table */
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd; /* Add border to table cells */
+        padding: 8px;
+        text-align: center;
+    }
+
+    .table th {
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+        background-color: #46f1be;
+        border: 1px solid #ddd; /* Add border to table header cells */
+    }
+
+    /* Additional styles for header */
+    .content-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    /* Table hover effect */
+    .table-hover tbody tr:hover {
+        background-color: #46f1be;
+        transform: scale(1.02);
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    /* Dropdown button styles */
+    /* ... (existing styles for dropdown button) ... */
+
+    /* Active state for the dropdown */
+    /* ... (existing styles for active state of dropdown button) ... */
+
+    /* Dropdown menu styles */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #46f1be;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
+        min-width: 150px;
+        z-index: 1;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Center-align the elements in the dropdown menu */
+    }
+
+    /* Show dropdown menu on hover */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-item {
+        color: #000000;
+        padding: 8px 12px;
+        display: block;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Hover effect for dropdown items */
+    .dropdown-item:hover {
+        background-color: #46f1be;
+        color: #ffffff; /* Change the text color on hover */
+    }
+
+    .thread {
+        background-color: #46f1be;
+    }
+</style>
+<!-- 
+<style>
+    /* ... (existing styles) ... */
+
+    /* Additional styles for header */
+    .content-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    /* Table hover effect */
+    .table-hover tbody tr:hover {
+        background-color: #f2f2f2;
+        transform: scale(1.02);
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    /* Dropdown button styles */
+    /* ... (existing styles for dropdown button) ... */
+
+    /* Active state for the dropdown */
+    /* ... (existing styles for active state of dropdown button) ... */
+
+    /* Dropdown menu styles */
+ 
+    /* Show dropdown menu on hover */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        align-items: center;
+    }
+
+    
+</style>
+<style>
+    /* ... (existing styles) ... */
+
+    /* Table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc; /* Add border to the entire table */
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd; /* Add border to table cells */
+        padding: 8px;
+        text-align: center;
+    }
+
+    .table th {
+        font-weight: bold;
+        color: #000;
+        text-align: center;
+        background-color:#46f1be;
+        border: 1px solid #ddd; /* Add border to table header cells */
+    }
+
+    /* Additional styles for header */
+    .content-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    /* Table hover effect */
+    .table-hover tbody tr:hover {
+        background-color: #46f1be;
+        transform: scale(1.02);
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    /* Dropdown button styles */
+    /* ... (existing styles for dropdown button) ... */
+
+    /* Active state for the dropdown */
+    /* ... (existing styles for active state of dropdown button) ... */
+
+    /* Dropdown menu styles */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: #46f1be;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
+        min-width: 150px;
+        z-index: 1;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Show dropdown menu on hover */
+  
+    .dropdown-item {
+        color: #000000;
+        padding: 8px 12px;
+        display: block;
+        text-decoration: none;
+       
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Hover effect for dropdown items */
+    .dropdown-item:hover {
+        background-color: #46f1be;
+        
+    }
+    .thread {
+        background-color: #46f1be;
+    }
+</style>
+ -->
+
+
+<%- include('../layouts/adminHeader.ejs') %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+
+<div class="table-responsive">
+    <h3>Users List</h3>
+    <br>
+    <table class="table table-hover" id="myTable" >
+        <thead class="thread">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let serialNo = 1; %>
+            <% user.forEach((user) => { %>
+            <tr>
+                <td><%= serialNo %></td>
+                <td><%= user.fname %> <%= user.lname %></td>
+                <td><%= user.email %></td>
+                <td><%= user.mobile %></td>
+                <% if (user.is_blocked == false) { %>
+                <td><span style="color: green;">Active</span></td>
+                <% } else { %>
+                <td><span style="color: red;">Blocked</span></td>
+                <% } %>
+                <td>
+                    <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <% if (user.is_blocked == false) { %>
+                            <a class="dropdown-item" href="#" onclick="blockUserConfirmation('<%= user._id %>');">
+                                <i class="bx bx-block me-1"></i> Block
+                            </a>
+                            <% } else { %>
+                            <a class="dropdown-item" href="#" onclick="unblockUserConfirmation('<%= user._id %>');">
+                                <i class="bx bx-check-circle me-1"></i> Unblock
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <% serialNo++; %>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            
+
+            function blockUserConfirmation(userId) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: 'You want to block this user?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, block user!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Perform the block operation here or redirect to the block user endpoint
+                        window.location.href = `/admin/blockUser?id=${userId}`;
+
+                        swalWithBootstrapButtons.fire(
+                            'Blocked!',
+                            'The user has been blocked.',
+                            'success'
+                        );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'The user has not been blocked.',
+                            'error'
+                        );
+                    }
+                });
+            }
+
+            function unblockUserConfirmation(userId) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: 'You want to unblock this user?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, unblock user!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Perform the unblock operation here or redirect to the unblock user endpoint
+                        window.location.href = `/admin/unBlockUser?id=${userId}`;
+
+                        swalWithBootstrapButtons.fire(
+                            'Unblocked!',
+                            'The user has been unblocked.',
+                            'success'
+                        );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'The user has not been unblocked.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        </script>
+<script>
+    $(document).ready(function() {
+    $.noConflict();
+      $('#myTable').DataTable({
+        "paging": true,          // Enable pagination
+        "pageLength": 10,        // Number of rows per page
+        "lengthMenu": [10, 25, 50, 75, 100],  // Dropdown options for rows per page
+
+      });
+    });
+    </script>
+
+         <!-- content -->
+
+
+
+<%- include('../layouts/adminFooter.ejs') %>
+
+
+   

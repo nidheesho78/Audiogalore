@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="../fe/img/fav.png">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Audiogalore</title>
+
+	<!--
+		CSS
+		============================================= -->
+	<link rel="stylesheet" href="../fe/css/linearicons.css">
+	<link rel="stylesheet" href="../fe/css/owl.carousel.css">
+	<link rel="stylesheet" href="../fe/css/themify-icons.css">
+	<link rel="stylesheet" href="../fe/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../fe/css/nice-select.css">
+	<link rel="stylesheet" href="../fe/css/nouislider.min.css">
+	<link rel="stylesheet" href="../fe/css/bootstrap.css">
+	<link rel="stylesheet" href="../fe/css/main.css">
+</head>
+
+<body>
+
+	<!-- Start Header Area -->
+	
+	<!-- End Header Area --><%- include('../layouts/userHeader.ejs') %>
+
+
+
+
+
+
+<style>
+    .form-control-line {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+        background-color: transparent;
+    }
+
+    .form-control-line:focus {
+        outline: none;
+        border-bottom: 1px solid #555;
+    }
+    .register_box {
+        background-color: #f7f7f7;
+        padding: 30px;
+        border-radius: 5px;
+    }
+
+    .register_box h2 {
+        color: #333;
+    }
+
+    .form-control-line {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+        background-color: transparent;
+    }
+
+    .form-control-line:focus {
+        outline: none;
+        border-bottom: 1px solid #555;
+    }
+
+    .btn.submit_btn {
+        background-color: #4CAF50;
+        color: #fff;
+    }
+
+    .btn.submit_btn:hover {
+        background-color: #45a049;
+    }
+
+    .form-group-spacing {
+        margin-bottom: 20px;
+    }
+</style>
+
+<section class="register_area p_100" style="margin-top: 200px;">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="register_box">
+                    <h2 style="margin-bottom: 30px; text-align: center;">Register a New Account</h2>
+                    <form class="row contact_form" action="#" method="post" novalidate="novalidate" onsubmit="return validateForm()">
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="text" required class="form-control form-control-line" id="first_name" name="fname" placeholder="First Name">
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="text" required class="form-control form-control-line" id="last_name" name="lname" placeholder="Last Name">
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="email" required class="form-control form-control-line" id="email" name="email" placeholder="Email Address">
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="text" required class="form-control form-control-line" id="phone" name="mno" placeholder="Phone Number">
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="password" required class="form-control form-control-line" id="password" name="password" placeholder="Password">
+                        </div>
+                         <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;">
+                            <input type="password" required class="form-control form-control-line" id="confpass" name="confpass" placeholder="Confirm Password">
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="display: flex; justify-content: center; align-items: center;">
+                            <button type="submit" value="submit" class="btn submit_btn">Register</button><br><br>
+                        </div>
+                        <div class="col-md-12 form-group form-group-spacing" style="margin-bottom: 20px;display: flex; justify-content: center; align-items: center;">
+                            <a href="/login">Already have an account?</a>
+                           
+                        </div>
+                        <p ><%=(typeof message!=='undefined')?message:'' %></p>
+                        <p id="error-message"></p>
+                        
+                        <div id="error-message" style="color: red;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    
+<script>
+    function validateForm() {
+        var firstName = document.getElementById('first_name').value.trim();
+        var lastName = document.getElementById('last_name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+
+        var errorMessage = document.getElementById('error-message'); // Get the error message element
+
+        // Reset error message
+        errorMessage.textContent = '';
+
+        // Trim and check if any field is empty
+        if (firstName === '' || lastName === '' || email === '' || phone === '') {
+            errorMessage.textContent = 'Please fill in all fields.'; // Set the error message
+            return false;
+        }
+
+        // Validate name should not contain numbers
+        if (/[\d]/.test(firstName) || /[\d]/.test(lastName)) {
+            errorMessage.textContent = 'Name should not contain numbers.'; // Set the error message
+            return false;
+        }
+
+        // Validate phone number format
+        if (!/^\+\d{1,12}$/.test(phone)) {
+            errorMessage.textContent = 'Phone number should be in the format of +1234567890 and can have a maximum of 12 digits.'; // Set the error message
+            return false;
+        }
+
+        // Validate email format
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            errorMessage.textContent = 'Please enter a valid email address.'; // Set the error message
+            return false;
+        }
+     
+
+        return true;
+    }
+</script>
+
+    
+    
+<!--================End Register Area =================-->
+
+<style>
+    .form-group-spacing {
+        margin-bottom: 29px;
+    }
+</style>
+
+
+
+
+<%- include('../layouts/userFooter.ejs') %>
+
