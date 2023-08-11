@@ -1,15 +1,14 @@
-const Cart = require("../models/cartModel");
-const Product = require("../models/productModel");
+
 const Address = require("../models/userAddressModel");
 const User = require("../models/userModel");
 const profileHelper = require("../helpers/profileHelper");
-
 const Order = require("../models/orderModel");
 const { ObjectId } = require("mongodb");
-
+const {  LogContextImpl,} = require("twilio/lib/rest/serverless/v1/service/environment/log");
+const PDFDocument = require("pdfkit");
 const easyinvoice = require('easyinvoice');
 const fs=require('fs')
-
+const { Readable } = require("stream");
 const bcrypt = require("bcrypt");
 
 const securePassword = async (password) => {
@@ -81,6 +80,7 @@ const submitAddress = async (req, res) => {
 ///edit address
 
 const editAddress = async (req, res) => {
+  try{
   console.log("hai");
   const id = req.body.id;
   const name = req.body.name;
@@ -107,11 +107,15 @@ const editAddress = async (req, res) => {
   );
 
   res.redirect("/profile");
+}catch(error){
+  console.log(error.message)
+}
 };
 
 ///delete address
 
 const deleteAddress = async (req, res) => {
+  try{
   const userId = res.locals.user._id;
   console.log(userId);
   const addId = req.body.addressId;
@@ -124,6 +128,9 @@ const deleteAddress = async (req, res) => {
   );
 
   res.redirect("/profile");
+}catch(error){
+  console.log(error.message)
+}
 };
 
 ///edit info
@@ -426,13 +433,7 @@ const walletTransaction = async(req,res)=>{
   }
 
 
-}
-
-
-
-
-
-
+};
 module.exports = {
   profile,
   submitAddress,

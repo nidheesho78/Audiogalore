@@ -1,7 +1,7 @@
 const path = require("path");
 const Product = require("../models/productModel");
 const Category = require("../models/categoryModel");
-const { log } = require("util");
+
 
 ///load product list
 
@@ -29,6 +29,7 @@ const loadProducts = async (req, res) => {
 ///sunmit add product
 
 const createProduct = async (req, res) => {
+  try{
   const { name, description, category, price, stock } = req.body;
   const filesArray = Object.values(req.files).flat();
   const images = filesArray.map((file) => file.filename);
@@ -95,6 +96,9 @@ const createProduct = async (req, res) => {
         category: categories,
       });
     });
+}catch(error){
+  console.log(error.message)
+}
 };
 
 
@@ -206,10 +210,6 @@ const productDetails = async (req, res) => {
     console.log(error.message);
   }
 };
-
-
-
-
 module.exports = {
   loadProducts,
   createProduct,

@@ -11,6 +11,7 @@ module.exports.getAddBanner = async(req,res)=>{
     }
 }
  module.exports.postAddBanner = (req, res) => {
+    try{
     bannerHelper.addBannerHelper(req.body, req.file.filename).then(( response) => {
         if (response) {
             res.redirect("/admin/addBanner");
@@ -18,7 +19,10 @@ module.exports.getAddBanner = async(req,res)=>{
             res.status(505);
         }
     });
+}catch(error){
+    console.log(error.message)
 }
+ };
 module.exports.bannerList = async (req,res) => {
    try{
         bannerHelper.bannerListHelper().then((response)=> {
@@ -31,23 +35,17 @@ module.exports.bannerList = async (req,res) => {
     }
 }
 
-// module.exports.editBanner = (req,res) => {
-//   bannerHelper.editBannerHelper(req.query.id).then((response) => {
-//         res.render("updateBanner",{banner:response});
-//     });
-// }
-
-module.exports.getEditBanner = (req,res) => {
-
-}
 
 
-module.exports.postEditBanner = (req,res) => {
 
-}
+
 
 module.exports.deleteBanner = async (req,res) => {
+    try{
   bannerHelper.deleteBannerHelper(req.query.id).then(() => {
         res.redirect("/admin/listBanner")
     });
-} 
+} catch(error){
+    console.log(error.message)
+}
+};

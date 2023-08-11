@@ -10,12 +10,6 @@ app.set('view engine','ejs')
 
 app.use(express.static(path.join(__dirname+'/public')));
 
-//parsing
-
-
-app.use(express.json())
-
-
 
 // User Route
 

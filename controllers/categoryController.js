@@ -146,13 +146,6 @@ if (category) {
 
 
 
-
-
-
-  
-
-
-
 module.exports = {
   loadCategory,
   createCategory,

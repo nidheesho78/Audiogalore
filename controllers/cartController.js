@@ -2,8 +2,7 @@ const cartHelper = require("../helpers/cartHelper");
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 
-const wishListHelper = require('../helpers/wishListHelper')
- 
+
 const addToCart = async (req, res) => {
   try {
     console.log("hereee");
@@ -13,19 +12,14 @@ const addToCart = async (req, res) => {
     const productId = req.body.productId;
     const name = req.body.name;
     const quantity = req.body.quantity;
-    const userId = res.locals.user._id;
 
-    
-
-
-    // Add the product to the cart
     const response = await cartHelper.addCart(
-      productId, userId, quantity, price, name);
-
-    // If the product was successfully added to the cart, remove it from the wishlist
-   if (response.status) {
-      await wishListHelper.removeProductWishlist(productId, userId);
-    }
+      productId,
+      res.locals.user._id,
+      quantity,
+      price,
+      name
+    );
 
     res.send(response);
   } catch (error) {
@@ -108,28 +102,17 @@ const updatecart = async (req, res) => {
 
 
 const deleteCart=async(req,res)=>{
+  try{
+  
  cartHelper.deleteProduct(req.body).then((response)=>{
   res.send(response)
  })
 
 
+}catch(error){
+  console.log(error.message)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
 
 module.exports = {
   addToCart,

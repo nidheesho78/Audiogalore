@@ -53,10 +53,7 @@ const verifyLogin = async (req, res) => {
 
 const loadDashboard = async (req, res) => {
   try {
-     const page = parseInt(req.query.page) || 1; // Default to page 1
-    const pageSize = parseInt(req.query.pageSize) || 5; // Default to 5 rows per page
-
-    const skip = (page - 1) * pageSize;
+ 
     const orders = await Order.aggregate([
       { $unwind: "$orders" },
       {
@@ -75,25 +72,25 @@ const loadDashboard = async (req, res) => {
       {
         $match: {
           "orders.orderStatus": "Delivered"  // Consider only completed orders
-        }
+        },
       },
       {
         $group: {
           _id: {
             $dateToString: {  // Group by the date part of createdAt field
               format: "%Y-%m-%d",
-              date: "$orders.createdAt"
+              date: "$orders.createdAt",
             }
           },
           dailySales: { $sum: { $toInt: "$orders.totalPrice" } }  // Calculate the daily sales
-        } 
+        },
       }, 
       {
         $sort: {
           _id: 1  // Sort the results by date in ascending order
-        }
-      }
-    ])
+        },
+      },
+    ]);
     const categorySales = await Order.aggregate([
       { $unwind: "$orders" },
       { $unwind: "$orders.productDetails" },
@@ -372,36 +369,6 @@ const changeStatus = async(req,res)=>{
 
 
 
-// const cancelOrder = (req,res) => {
-//   try {
-//     const orderId=req.body.orderId
-//     const status=req.body.status
-//     return new Promise(async (resolve, reject) => {
-//       Order.findOne({ "orders._id": new ObjectId(orderId) }).then((orders) => {
-//         const order = orders.orders.find((order) => order._id == orderId);
-
-//         if (status == 'Cancel Accepted' || status == 'Cancel Declined'|| status=='Direct Cancel') {
-//           Order.updateOne(
-//             { "orders._id": new ObjectId(orderId) },
-//             {
-//               $set: {
-               
-//                 "orders.$.orderStatus": status,
-//                 "orders.$.paymentStatus": "No Refund"
-//               }
-//             }
-//           ).then((response) => {
-//             resolve(response);
-            
-//           });
-//         }
-//       });
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//     }
-//   };
-
 
 
 const cancelOrder = (req, res) => {
@@ -520,51 +487,35 @@ const orderDetails = async (req,res)=>{
   
   }
 
-//return order
 
-// const returnOrder = async(req,res)=>{
-//   const orderId = req.body.orderId
-//   const status = req.body.status
- 
+const returnOrder = async (req, res) => {
+try {
 
+  const orderId = req.body.orderId;
+  const status = req.body.status;
+  const user = res.locals.user;
+  console.log("user", user);
 
-//   adminHelper.returnOrder(orderId,status).then((response) => {
-//     res.send(response);
-//   });
-
-// }
-
-// const cancelOrder = async(req,res)=>{
-//   const userId = req.body.userId
-
-//   const orderId = req.body.orderId
-//   const status = req.body.status
-
-//   adminHelper.cancelOrder(orderId,userId,status).then((response) => {
-//     res.send(response);
-//   });
-
-// }
-const returnOrder = async(req,res)=>{
-  const orderId = req.body.orderId
-  console.log(orderId,'////////////')
-  const status = req.body.status
-  console.log(status,'dsafsdfsdfdsfdf')
-  const user = req.body.user
-  console.log(user,'hbhjnj')
-
-
-  adminHelper.returnOrder(orderId,user,status).then((response) => {
+  adminHelper.returnOrder(orderId, status, user).then((response) => {
     res.send(response);
   });
+  
+} catch (error) {
 
-}  
+  console.log(error.message,'returnOrder');
+  
+}
+};
+
 
 
 
 
 ////salesReport
 const getSalesReport = async (req, res) => {
+  try{
+
+  
   const report = await adminHelper.getSalesReport();
   let details = [];
    let totalSales = 0;
@@ -584,9 +535,15 @@ const getSalesReport = async (req, res) => {
   });
 
   res.render("salesReport", { details, getDate,  totalSales });
+}catch(error){
+  console.log(error.message)
+}
 };
 
 const postSalesReport = (req, res) => {
+  try{
+
+  
   const admin = req.session.admin;
   const details = [];
    let totalSales = 0;
@@ -610,6 +567,9 @@ const postSalesReport = (req, res) => {
     console.log(details, "details");
     res.render("salesReport", { details, getDate, totalSales });
   });
+}catch(error){
+  console.log(error.message)
+}
 };
 
 
@@ -617,6 +577,7 @@ const postSalesReport = (req, res) => {
 
 
 const getCancelReport = async (req, res) => {
+  try{
   const report = await adminHelper.getCancelReport();
   let details = [];
   const getDate = (date) => {
@@ -634,9 +595,12 @@ const getCancelReport = async (req, res) => {
   });
 
   res.render("cancelReport", { details, getDate });
+}catch(error){
+  console.log(error.message)
+}
 };
-
 const postCancelReport = (req, res) => {
+  try{
   const admin = req.session.admin;
   const details = [];
   const getDate = (date) => {
@@ -656,14 +620,20 @@ const postCancelReport = (req, res) => {
     console.log(details, "details");
     res.render("cancelReport", { details, getDate });
   });
+}catch(error){
+  console.log(error.message)
+}
 };
 
 
 
-
 const logout = (req, res) => {
+  try{
   res.clearCookie("jwtadmin"); 
   res.redirect("/admin");
+}catch(error){
+  console.log(error.message)
+}
 };
 
 module.exports = {

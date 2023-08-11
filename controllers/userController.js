@@ -5,9 +5,9 @@ const otpHelper = require('../helpers/otpHelper')
 const Banner = require('../models/bannerModel')
 const Address = require("../models/userAddressModel");
 const Cart = require("../models/cartModel");
+const Banner = require("../models/bannerModel");
 const Category = require("../models/categoryModel");
 const { ObjectId } = require("mongodb"); 
-// const bcrypt = require("bcrypt");
 const profileHelper = require('../helpers/profileHelper')
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
@@ -16,6 +16,7 @@ const createToken = (id) => {
     });
 };
 
+const bcrypt = require("bcrypt");
 
 
 const securePassword = async (password) => {
@@ -201,8 +202,9 @@ module.exports.verifyLogin = async (req, res) => {
 ///resend otp
 
 module.exports.resendOTP = async (req, res) => {
-    const mobileNumber = req.session.mobile;
     try {
+    const mobileNumber = req.session.mobile;
+
         // Retrieve user data from session storage
         const userData = req.session.userData;
        
