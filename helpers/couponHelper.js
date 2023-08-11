@@ -1,10 +1,10 @@
 const voucherCode = require("voucher-code-generator");
 const Coupon = require("../models/couponModel");
 const User = require("../models/userModel");
-const { ObjectId } = require("mongodb");
-const { resolve } = require("path");
+
+
 const { error } = require("console");
-const { log } = require("util");
+
 
 //generete coupon code
 const generateCouponCode = () => {
