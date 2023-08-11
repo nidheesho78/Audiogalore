@@ -1,7 +1,7 @@
 const couponHelper = require("../helpers/couponHelper");
 const Coupon = require("../models/couponModel");
 
-const { loginLoad } = require("./userController");
+
 
 
 // load add coupon

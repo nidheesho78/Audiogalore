@@ -1,6 +1,4 @@
-const wishList = require('../models/wishListModel')
 const wishListHelper = require('../helpers/wishListHelper')
-const cartHelper = require('../helpers/cartHelper')
 
 const getWishList = async (req, res) => {
     let user = res.locals.user;

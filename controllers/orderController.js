@@ -1,15 +1,14 @@
 const Cart = require("../models/cartModel");
-const Product = require("../models/productModel");
+
 const orderHelper = require("../helpers/orderHelper");
 const Order = require("../models/orderModel");
 const { ObjectId } = require("mongodb");
-const adminHelper = require("../helpers/adminHelper");
+
 const couponHelper = require("../helpers/couponHelper");
-const { LogContextImpl } = require("twilio/lib/rest/serverless/v1/service/environment/log");
-const PDFDocument = require('pdfkit');
+
 const easyinvoice = require('easyinvoice');
 const fs=require('fs')
-const Readable = require('stream')
+
 
 const confirmOrder = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 const wishListModel = require('../models/wishListModel')
 const{ObjectId} = require('mongodb')
-const user = require('../models/userModel')
+
   
   //to get the total count of wishlist
  const getWishListCount = async (userId) => {
