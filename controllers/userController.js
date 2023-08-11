@@ -5,7 +5,7 @@ const otpHelper = require('../helpers/otpHelper')
 const Banner = require('../models/bannerModel')
 const Address = require("../models/userAddressModel");
 const Cart = require("../models/cartModel");
-const Banner = require("../models/bannerModel");
+
 const Category = require("../models/categoryModel");
 const { ObjectId } = require("mongodb"); 
 const profileHelper = require('../helpers/profileHelper')
@@ -63,64 +63,51 @@ module.exports.loadRegister = async (req, res) => {
 
 //submit register  and send otp
 module.exports.insertUser = async (req, res) => {
-  try {
+    const mobileNumber = req.body.mno;
     const email = req.body.email;
-    const num = req.body.mno;
-    const fname = req.body.fname.trim();
-    const lname = req.body.lname.trim();
-    const password = req.body.password.trim();
-    const confpass  = req.body.confpass.trim();
-    if (!email || !num || !fname || !lname || !password || !confpass) {
-      return res.render("register", { message: "Please fill in all the fields" });
+    const existingUser = await User.findOne({ email: email });
+
+    if (!req.body.fname || req.body.fname.trim().length === 0) {
+        return res.render("register", { message: "Name is required" });
+    } else if (/\d/.test(req.body.fname) || /\d/.test(req.body.lname)) {
+        return res.render("register", { message: "Name should not contain numbers" });
     }
 
-
-    const existingUser = await User.findOne({ email: email });
-    const existingNum = await User.findOne({ mobile: num });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.render("register", { message: "Email Not Valid" });
+    }
 
     if (existingUser) {
-      return res.render("register", { message: "Email already exists" });
-    }
-    if (existingNum) {e
-      return res.render("register", { message: "Number already exists" });
+        return res.render("register", { message: "Email already exists" });
     }
 
-    if (/\d/.test(req.body.fname) || /\d/.test(req.body.lname)) {
-      return res.render("register", {
-        message: "Name should not contain numbers",
-      });
+    const mobileNumberRegex = /^\d{10}$/;
+    if (!mobileNumberRegex.test(mobileNumber)) {
+        return res.render("register", { message: "Mobile Number should have 10 digits" });
     }
 
-    if (!/^(\+91)?\d{10}$/.test(num)) {
-      return res.render("register", { message: "Mobile number should contain +91 as prefix and should not contain any characters and symbol" });
+   
+    if (req.body.password != req.body.confpassword) {
+        return res.render("register", { message: "Password and Confirm Password must be the same" });
     }
 
-  
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[a-zA-Z\d@$!%#?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      return res.render("register", { message: "Password must conatain 1 special character 1 uppercase character and 1 number and strength should be 8" });
-    }
-    const confPassRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[a-zA-Z\d@$!%#?&]{8,}$/;
-    if(!confPassRegex.test(confpass)){
-      return res.render("register", { message: "Password must conatain 1 special character 1 uppercase character and 1 number and strength should be 8" });
+   
 
-    }
-     if (password !== confpass) {
-      return res.render("register", { message: "Passwords do not match" });
-    }
+    const otp = otpHelper.generateOtp()
 
-    await otpHelper.sendOtp(num);
+    console.log(`Otp is ${otp}`);
+
     try {
-      req.session.userData = req.body;
-      req.session.mobile = num;
-      res.render("verifyOtp");
+        req.session.otp = otp;
+        req.session.userData = req.body;
+        req.session.mobile = mobileNumber;
+        res.render("verifyOtp");
     } catch (error) {
-      console.log(error.message); 
-      res.redirect("/error-500");
+        console.log(error.message);
+        res.redirect('/500Error')
+       
     }
-  } catch (error) {
-    console.log(error.message);
-  }
 };
 
 
@@ -213,8 +200,8 @@ module.exports.resendOTP = async (req, res) => {
             res.status(400).json({ message: "Invalid or expired session" });
         }
 
-        // Generate and send new OTP using Twilio
-           await otpHelper.sendOtp(mobileNumber);
+            const otp =  otpHelper.generateOtp()
+
 
         req.session.otp = otp;
 
@@ -237,8 +224,9 @@ module.exports.getMobile = async (req,res) =>{
   }
 }
 module.exports.forgetOtp = async (req, res) => {
-    const mobileNumber = req.session.mobile;
     try {
+    const mobileNumber = req.session.mobile;
+
         // Retrieve user data from session storage
         if (!mobileNumber) {
       return res.status(400).json({ message: "Mobile number not found in session" });
@@ -246,8 +234,8 @@ module.exports.forgetOtp = async (req, res) => {
 
        
 
-        // Generate and send new OTP using Twilio
-        const otp = otpHelper.sendOtp()
+             const otp = otpHelper.generateOtp()
+
     // await otpHelper.sendOtp(mobileNumber,otp)
          
         req.session.otp = otp;
@@ -263,40 +251,44 @@ module.exports.forgetOtp = async (req, res) => {
 };
 ///verify otp
 module.exports.verifyOtp = async (req, res) => {
-  try {
     const otp = req.body.otp;
+    try {
+        const sessionOTP = req.session.otp;
+        const userData = req.session.userData;
+    
 
-  
-    const userData = req.session.userData;
-    const verified = await otpHelper.verifyCode(userData.mno, otp);
+ if (!sessionOTP || !userData) {
+      res.render("verifyOtp", { message: "Invalid Session" });
+    } else if (sessionOTP !== otp) {
+      res.render("verifyOtp", { message: "Invalid OTP" });
+    } else {
 
-    if (verified) {
-      const spassword = await securePassword(userData.password);
-      const user = new User({
-        fname: userData.fname,
-        lname: userData.lname,
-        email: userData.email,
-        mobile: userData.mno,
-        password: spassword,
-        is_admin: 0,
-      });
-      const userDataSave = await user.save();
-      if (userDataSave) {
-        const token = createToken(user._id);
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        // res.redirect("/");
-        res.send(
+            const spassword = await securePassword(userData.password);
+            const user = new User({
+                fname: userData.fname,
+                lname: userData.lname,
+                email: userData.email,
+                mobile: userData.mno,
+                password: spassword,
+               
+            });
+
+            const userDataSave = await user.save();
+            if (userDataSave) {
+                const token = createToken(user._id);
+                res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+                // res.redirect("/");
+                res.send(
           '<script>alert("Verification success"); window.location.href = "/login";</script>'
         );
-      } else {
-        res.render("register", { message: "Registration Failed" });
-      }
-    } else {
-      res.render("verifyOtp", { message: "Wrong Otp" });
+            } else {
+                res.render("register", { message: "Registration Failed" });
+            }
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.redirect('/500Error')
     }
-  } catch (error) {
-    console.log(error.message);
-  }
 };
 
 
@@ -324,10 +316,11 @@ module.exports.forgotPasswordOtp = async (req, res) => {
     if (!user) {
         res.render("forgetPassword", { message: "User Not Registered" });
     } else {
-      await otpHelper.sendOtp(req.session.mobile);
-      
-   
+           const OTP = otpHelper.generateOtp()
 
+              console.log(`Forgot Password otp is --- ${OTP}`) 
+        req.session.otp = OTP
+   
      
         req.session.email = user.email;
         res.render("otpGen", { mobile: req.query.mobileNumber });
@@ -349,19 +342,18 @@ module.exports.resetPasswordOtpVerify = async (req, res) => {
         console.log("session otp", otp);
         const reqOtp = req.body.otp;
 
-    const verified = await otpHelper.verifyCode(mobile, reqOtp);
-
+   
         const otpHolder = await User.find({ mobile: req.body.mobile });
-       if (verified) {
-            res.render("changePassword",);
-        } else {
-            res.render("forgetPassword",{message:"Wrong OTP"})
-            
-        } 
-    } catch (error) {
-        console.log(error);
-        res.redirect('/500Error')
+      if (otp == reqOtp) {
+      //sending token as a cookie
+   res.render("changePassword");
+    } else {
+      return console.log("Your OTP was Wrong");
     }
+  } catch (error) {
+    console.log(error);
+   
+  }
 };
 
 
@@ -540,7 +532,9 @@ module.exports.searchProduct = async (req, res) => {
       totalPages,
       searchQuery,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message)
+  }
 };
 
 //priceFilter

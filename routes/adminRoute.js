@@ -79,8 +79,6 @@ adminRoute.post('/cancelReport',validate.requireAuth, adminController.postCancel
 adminRoute.get('/addBanner',validate.requireAuth,bannerController.getAddBanner )  ///return order
 adminRoute.post('/addBanner',validate.requireAuth,multer.addBannerupload,bannerController.postAddBanner)
 adminRoute.get('/listBanner',validate.requireAuth,bannerController.bannerList)
-adminRoute.get("/editBanner",validate.requireAuth, bannerController.getEditBanner)
-adminRoute.post("/editBanner",multer.editBannerupload,validate.requireAuth, bannerController.postEditBanner)
 adminRoute.get('/deleteBanner',bannerController.deleteBanner)
 
 
@@ -94,16 +92,6 @@ adminRoute.get('/generate-coupon-code',validate.requireAuth,couponController.gen
 adminRoute.get('/couponList',validate.requireAuth,couponController.couponList)
 
 adminRoute.delete('/removeCoupon',couponController.removeCoupon)
-
-
-
-
-
-
-
-
-
-
 
 adminRoute.get('/logout',validate.requireAuth,adminController.logout)
 module.exports = adminRoute

@@ -7,10 +7,6 @@ const OrderController = require('../controllers/orderController')
 const cartController = require('../controllers/cartController')
 const couponController = require('../controllers/couponController')
 const wishListController = require('../controllers/wishListController')
-
-
-
-
 const validate = require('../middleware/auth');
 const cookieparser = require('cookie-parser')
 const nocache = require('nocache')

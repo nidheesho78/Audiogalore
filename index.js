@@ -1,7 +1,23 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://Audiogalore:Nidheesh7@cluster0.roubmtm.mongodb.net/Audiogalore')
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb+srv://Audiogalore:Nidheesh7@cluster0.roubmtm.mongodb.net/Audiogalore')
+
+require('dotenv').config(); // Load environment variables from .env file
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGODB_URI;
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 const path = require('path')
 require('dotenv/config')
