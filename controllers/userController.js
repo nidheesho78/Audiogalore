@@ -7,7 +7,7 @@ const Address = require("../models/userAddressModel");
 const Cart = require("../models/cartModel");
 const Category = require("../models/categoryModel");
 const { ObjectId } = require("mongodb"); 
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const profileHelper = require('../helpers/profileHelper')
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
