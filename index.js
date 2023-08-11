@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const connectDB = require('./config/connection')
-connectDB()
+const mongoose = require('mongoose')
+mongoose.connect('mongodb+srv://Audiogalore:Nidheesh7@cluster0.roubmtm.mongodb.net/Audiogalore')
+
 const path = require('path')
 require('dotenv/config')
 //view Engine

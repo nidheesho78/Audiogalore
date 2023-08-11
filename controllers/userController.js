@@ -385,7 +385,7 @@ module.exports.setNewPassword = async (req, res) => {
         res.redirect('/login')
         console.log("Password updated successfully");
     } else {
-        res.render("resetPassword", {
+        res.render("changePassword", {
             message: "Password and Confirm Password is not matching",
         });
     }
