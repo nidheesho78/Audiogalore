@@ -1,0 +1,83 @@
+
+
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="../fe/img/fav.png">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Karma Shop</title>
+
+	<!--
+		CSS
+		============================================= -->
+	<link rel="stylesheet" href="../fe/css/linearicons.css">
+	<link rel="stylesheet" href="../fe/css/owl.carousel.css">
+	<link rel="stylesheet" href="../fe/css/themify-icons.css">
+	<link rel="stylesheet" href="../fe/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../fe/css/nice-select.css">
+	<link rel="stylesheet" href="../fe/css/nouislider.min.css">
+	<link rel="stylesheet" href="../fe/css/bootstrap.css">
+	<link rel="stylesheet" href="../fe/css/main.css">
+</head>
+
+<body>
+
+	<!-- Start Header Area -->
+	
+	<!-- End Header Area --><%- include('../layouts/userHeader.ejs') %>
+
+	<!-- Start Banner Area -->
+
+	<!-- End Banner Area -->
+
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="../fe/img/login1.jpg" alt="">
+						<div class="hover">
+							<a class="primary-btn" href="/register">Create an Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3>Log in to enter</h3>
+						<form class="row login_form" action="/login" method="post" id="contactForm" novalidate="novalidate">
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="name" name="email" placeholder="Username or Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="name" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+							</div>
+							<div class="col-md-12 form-group">
+								
+							</div>
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" class="primary-btn">Log In</button>
+								<a href="/forgotPassword">Forgot Password?</a>
+								<p><%=(typeof message!=='undefined')?message:""%></p>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+	<%- include('../layouts/userFooter.ejs') %>

@@ -39,10 +39,11 @@ userRoute.use(cookieparser())
 userRoute.all('*',validate.checkUser)
 userRoute.get('/',userController.homeLoad)
 
-//register 
+
+
+//register
 userRoute.get('/register',validate.isLogout,userController.loadRegister)
-userRoute.post('/register',userController.insertUser)
-// userRoute.get('/verifyOtp',validate.isLogout,userController.getMobile)
+userRoute.post('/register',validate.isLogout,userController.insertUser)
 userRoute.post('/verifyOtp',validate.isLogout,userController.verifyOtp)
 
 //Login
@@ -51,15 +52,13 @@ userRoute.post('/login',userController.verifyLogin)
 userRoute.get('/logout',userController.logout)
 
 
-
 //Resend OTP
 userRoute.get('/resendOtp',validate.isLogout,userController.resendOTP)
 
 //forgot Password
- 
+
 userRoute.get('/forgotPassword',validate.isLogout,userController.loadForgotPassword)
-userRoute.post('/sendOtp',validate.isLogout,userController.resetPasswordOtpVerify)
-userRoute.get('/forgetOtp',validate.isLogout,userController.forgetOtp)
+userRoute.post('/sendOtp',userController.resetPasswordOtpVerify)
 userRoute.get('/forgotPasswordOtp',validate.isLogout,userController.forgotPasswordOtp)
 
  
@@ -68,7 +67,6 @@ userRoute.post('/setNewPassword',userController.resetPasswordOtpVerify)
 
 userRoute.post('/submitChangedPassword',userController.setNewPassword)
 
- 
 //shopp
 
 userRoute.get('/shop',validate.requireAuth,validate.checkBlocked,userController.displayProduct)

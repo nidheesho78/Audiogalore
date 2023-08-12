@@ -7,7 +7,7 @@ const getWishList = async (req, res) => {
     const wishlistCount = await wishListHelper.getWishListCount(user._id);
     wishListHelper.getWishListProducts(user._id).then((wishlistProducts) => {
 
-      res.render("wishList", {
+      res.render("wishlist", {
         user,
         // count,
         wishlistProducts,

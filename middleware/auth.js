@@ -2,22 +2,33 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  try {
 
-  // check json web token exists & is verified
-  if (token) {
-    jwt.verify(token, "my-secret", (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        res.redirect("/login");
-      } else {
-        console.log(decodedToken);
-        next();
-      }
-    });
-  } else {
-    res.redirect("/login");
+    const token = req.cookies.jwt;
+
+    // check json web token exists & is verified
+    if (token) {
+      jwt.verify(token, "my-secret", (err, decodedToken) => {
+        if (err) {
+          console.log(err.message);
+          res.redirect("/login");
+        } else {
+          
+          next();
+        }
+      });
+    } else {
+      res.redirect("/login");
+    }
+    
+  } catch (error) {
+
+    console.log(error.message,'');
+
+
+    
   }
+
 };
 
 // check current user
@@ -80,24 +91,25 @@ const checkBlocked = (req, res, next) => {
   if (token) {
     jwt.verify(token, "my-secret", async (err, decodedToken) => {
       const user = await User.findById(decodedToken.id);
-      if (user.is_blocked == true) {
-        res.clearCookie("jwt");
+      if(user){
+
+        if (user.is_blocked == true) {
+          res.clearCookie("jwt");
+          res.redirect("/login");
+        } else {
+          next();
+        }
+        
+      }else{
         res.redirect("/login");
-      } else {
-        next();
-      }
-    });
+
+      } 
     
+    });
   } else {
     next();
   }
 };
 
 
-module.exports = { 
-  requireAuth,
-   checkUser,
-   isLogin,
-   isLogout,
-   checkBlocked 
-  };
+module.exports = { requireAuth, checkUser,isLogin,isLogout,checkBlocked };

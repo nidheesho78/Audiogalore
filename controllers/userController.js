@@ -47,345 +47,285 @@ const securePassword = async (password) => {
     }
 };
 
+module.exports.loginLoad = async (req, res) => {
+  try {
+    res.render("userLogin");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 ///register user page
 
 module.exports.loadRegister = async (req, res) => {
-    try {
-        res.render("register");
-    } catch (error) {
-        console.log(error.message);
-        res.redirect('/500Error')
-    }
+  try {
+    res.render("register");
+  } catch (error) {
+    console.log(error.message);
+  }
 };
-
 
 //submit register  and send otp
+
 module.exports.insertUser = async (req, res) => {
-    const mobileNumber = req.body.mno;
+  try {
     const email = req.body.email;
+    const num = req.body.mno;
+    const fname = req.body.fname.trim();
+    const lname = req.body.lname.trim();
+    const password = req.body.password.trim();
+    if (!email || !num || !fname || !lname || !password) {
+      return res.render("register", { message: "Please fill in all the fields" });
+    }
+
+
     const existingUser = await User.findOne({ email: email });
-
-    if (!req.body.fname || req.body.fname.trim().length === 0) {
-        return res.render("register", { message: "Name is required" });
-    } else if (/\d/.test(req.body.fname) || /\d/.test(req.body.lname)) {
-        return res.render("register", { message: "Name should not contain numbers" });
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        return res.render("register", { message: "Email Not Valid" });
-    }
+    const existingNum = await User.findOne({ mobile: num });
 
     if (existingUser) {
-        return res.render("register", { message: "Email already exists" });
+      return res.render("register", { message: "Email already exists" });
+    }
+    if (existingNum) {e
+      return res.render("register", { message: "Number already exists" });
     }
 
-    const mobileNumberRegex = /^\d{10}$/;
-    if (!mobileNumberRegex.test(mobileNumber)) {
-        return res.render("register", { message: "Mobile Number should have 10 digits" });
+    if (/\d/.test(req.body.fname) || /\d/.test(req.body.lname)) {
+      return res.render("register", {
+        message: "Name should not contain numbers",
+      });
     }
 
-   
-    if (req.body.password != req.body.confpassword) {
-        return res.render("register", { message: "Password and Confirm Password must be the same" });
+    if (!/^(\+91)?\d{10}$/.test(num)) {
+      return res.render("register", { message: "Mobile number should contain +91 as prefix and should not contain any characters and symbol" });
     }
 
-   
+  
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[a-zA-Z\d@$!%#?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.render("register", { message: "Password must conatain 1 special character 1 uppercase character and 1 number and strength should be 8" });
+    }
 
-    const otp = otpHelper.generateOtp()
-
-    console.log(`Otp is ${otp}`);
-
+    await otpHelper.sendOtp(num);
     try {
-        req.session.otp = otp;
-        req.session.userData = req.body;
-        req.session.mobile = mobileNumber;
-        res.render("verifyOtp");
+      req.session.userData = req.body;
+      req.session.mobile = num;
+      res.render("verifyOtp");
     } catch (error) {
-        console.log(error.message);
-        res.redirect('/500Error')
-       
+      console.log(error.message);
+      res.redirect("/error-500");
     }
-};
-
-
-///login page
-
-
-module.exports.loginLoad = async (req, res) => {
-    try {
-      if(res.locals.user!=null){
-        res.redirect('/')
-      }else{
-
-        
-        res.render("userLogin");
-      }
-
-     
-    } catch (error) {
-        console.log(error.message);
-        res.redirect('500Error')
-    }
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 //verify login
 
 module.exports.verifyLogin = async (req, res) => {
-    try {
+  try {
+    const emailRegex =
+      /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9]+)\.([a-z]+)(\.[a-z]+)?$/;
 
+    const email = req.body.email;
+    const password = req.body.password;
 
-        const emailRegex = /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9]+)\.([a-z]+)(\.[a-z]+)?$/;
-
-        
-        const email = req.body.email;
-        const password = req.body.password;
-
-        if (!email) {
-            return res.render("userLogin", { message: "Email must be filled" });
-        }
-        if (!emailRegex.test(email)) {
-            return res.render("userLogin", { message: "Invalid email format" });
-        }
-
-        if (!password) {
-            return res.render("userLogin", { message: "Password must be filled" });
-        }
-
-
-
-        const userData = await User.findOne({ email: email });
-
-        if (userData) {
-            const passwordMatch = await bcrypt.compare(password, userData.password);
-            console.log(passwordMatch);
-            if (passwordMatch) {
-                if (userData.is_blocked == true) {
-                    return res.render("userLogin", { message: "Your Account is Blocked" });
-                } else {
-                    const token = createToken(userData._id);
-                    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-                    req.session.id = userData._id;
-                    return res.redirect("/");
-                   
-                }
-            } else {
-                return res.render("userLogin", { message: "Email and Password are Incorrect" });
-            }
-        } else {
-            return res.render("userLogin", { message: "Email and Password are Incorrect" });
-        }
-    } catch (error) {
-        console.log(error.message);
+    if (!email) {
+      return res.render("userLogin", { message: "Email must be filled" });
     }
+    if (!emailRegex.test(email)) {
+      return res.render("userLogin", { message: "Invalid email format" });
+    }
+
+    if (!password) {
+      return res.render("userLogin", { message: "Password must be filled" });
+    }
+
+    const userData = await User.findOne({ email: email });
+
+    if (userData) {
+      const passwordMatch = await bcrypt.compare(password, userData.password);
+
+      if (passwordMatch) {
+        if (userData.is_blocked == true) {
+          return res.render("userLogin", {
+            message: "Your Account is Blocked",
+          });
+        } else {
+          const token = createToken(userData._id);
+          res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+          req.session.id = userData._id;
+          return res.redirect("/home");
+          // res.send("success")
+        }
+      } else {
+        return res.render("userLogin", {
+          message: "Email and Password are Incorrect",
+        });
+      }
+    } else {
+      return res.render("userLogin", {
+        message: "Email and Password are Incorrect",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 };
-
-
-
-
 
 ///resend otp
 
 module.exports.resendOTP = async (req, res) => {
-    try {
+  try {
     const mobileNumber = req.session.mobile;
 
-        // Retrieve user data from session storage
-        const userData = req.session.userData;
-       
+    // Retrieve user data from session storage
+    const userData = req.session.userData;
 
-        if (!userData) {
-            res.status(400).json({ message: "Invalid or expired session" });
-        }
-
-            const otp =  otpHelper.generateOtp()
-
-
-        req.session.otp = otp;
-
-    
-      
-        console.log(`Resend Otp is ${otp}`);
-
-        res.render("verifyOtp", { message: "OTP Resend Successfully" });
-    } catch (error) {
-        console.error("Error: ", error);
-        res.render("verifyOtp", { message: "Failed to send otp" });
+    if (!userData) {
+      res.status(400).json({ message: "Invalid or expired session" });
     }
-};
-module.exports.getMobile = async (req,res) =>{
-  try{
-    res.render('verifyOtp')
+
+    // Generate and send new OTP using Twilio
+
+    await otpHelper.sendOtp(mobileNumber);
+
+    res.render("verifyOtp", { message: "OTP resent successfully" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.render("verifyOtp", { message: "Failed to send otp" });
   }
-  catch(error){
-    console.log(error.message)
-  }
-}
-module.exports.forgetOtp = async (req, res) => {
-    try {
-    const mobileNumber = req.session.mobile;
-
-        // Retrieve user data from session storage
-        if (!mobileNumber) {
-      return res.status(400).json({ message: "Mobile number not found in session" });
-    }
-
-       
-
-             const otp = otpHelper.generateOtp()
-
-    // await otpHelper.sendOtp(mobileNumber,otp)
-         
-        req.session.otp = otp;
-
-       
-        console.log(`Resend Otp is ${otp}`);
-
-        res.render("otpGen", { message: "OTP Resend Successfully" });
-    } catch (error) {
-        console.error("Error: ", error);
-        res.render("otpGen", { message: "Failed to send otp" });
-    }
 };
+
 ///verify otp
+
 module.exports.verifyOtp = async (req, res) => {
+  try {
     const otp = req.body.otp;
-    try {
-        const sessionOTP = req.session.otp;
-        const userData = req.session.userData;
-    
 
- if (!sessionOTP || !userData) {
-      res.render("verifyOtp", { message: "Invalid Session" });
-    } else if (sessionOTP !== otp) {
-      res.render("verifyOtp", { message: "Invalid OTP" });
-    } else {
+  
+    const userData = req.session.userData;
+    const verified = await otpHelper.verifyCode(userData.mno, otp);
 
-            const spassword = await securePassword(userData.password);
-            const user = new User({
-                fname: userData.fname,
-                lname: userData.lname,
-                email: userData.email,
-                mobile: userData.mno,
-                password: spassword,
-               
-            });
-
-            const userDataSave = await user.save();
-            if (userDataSave) {
-                const token = createToken(user._id);
-                res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-                // res.redirect("/");
-                res.send(
+    if (verified) {
+      const spassword = await securePassword(userData.password);
+      const user = new User({
+        fname: userData.fname,
+        lname: userData.lname,
+        email: userData.email,
+        mobile: userData.mno,
+        password: spassword,
+        is_admin: 0,
+      });
+      const userDataSave = await user.save();
+      if (userDataSave) {
+        const token = createToken(user._id);
+        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+        // res.redirect("/");
+        res.send(
           '<script>alert("Verification success"); window.location.href = "/login";</script>'
         );
-            } else {
-                res.render("register", { message: "Registration Failed" });
-            }
-        }
-    } catch (error) {
-        console.log(error.message);
-        res.redirect('/500Error')
+      } else {
+        res.render("register", { message: "Registration Failed" });
+      }
+    } else {
+      res.render("verifyOtp", { message: "Wrong Otp" });
     }
+  } catch (error) {
+    console.log(error.message);
+  }
 };
-
-
 
 ///load  forgotpassword page
 
 module.exports.loadForgotPassword = async (req, res) => {
-    try {
-        res.render("forgetPassword");
-    } catch (error) {
-        console.log(error.message);
-        res.redirect('/500Error')
-    }
+  try {
+    res.render("forgetPassword");
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 //// forgot password otp verofication
 
 module.exports.forgotPasswordOtp = async (req, res) => {
-
-    try{
-
-    req.session.mobile = req.query.mobileNumber
+  try {
+    req.session.mobile = req.query.mobileNumber;
     const user = await User.findOne({ mobile: req.query.mobileNumber });
-   
+
     if (!user) {
-        res.render("forgetPassword", { message: "User Not Registered" });
+      res.render("forgetPassword", { message: "User Not Registered" });
     } else {
-           const OTP = otpHelper.generateOtp()
+    
+      await otpHelper.sendOtp(req.session.mobile);
 
-              console.log(`Forgot Password otp is --- ${OTP}`) 
-        req.session.otp = OTP
-   
-     
-        req.session.email = user.email;
-        res.render("otpGen", { mobile: req.query.mobileNumber });
+      // req.session.otp = OTP;
+      req.session.email = user.email;
+      res.render("forgetPassword", { mobile: req.query.mobileNumber });
     }
-
-} catch(error) {
-    console.log(error.message)
-}
-
-}
-
-
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 module.exports.resetPasswordOtpVerify = async (req, res) => {
-    try {
-        const mobile = req.session.mobile;
-        const otp = req.session.otp;
-        console.log(mobile);
-        console.log("session otp", otp);
-        const reqOtp = req.body.otp;
+  try {
+    const mobile = req.session.mobile;
 
-   
-        const otpHolder = await User.find({ mobile: req.body.mobile });
-      if (otp == reqOtp) {
-      //sending token as a cookie
-   res.render("changePassword");
+    const reqOtp = req.body.otp;
+
+    const verified = await otpHelper.verifyCode(mobile, reqOtp);
+
+    const otpHolder = await User.find({ mobile: req.body.mobile });
+    if (verified) {
+      res.render("changePassword");
     } else {
-      return console.log("Your OTP was Wrong");
+      res.render("forgetPassword", { message: "Wrong OTP" });
     }
   } catch (error) {
     console.log(error);
-   
+    return console.log("an error occured");
+  }
+};
+
+module.exports.setNewPassword = async (req, res) => {
+  try {
+    const newpw = req.body.newPassword;
+    const confpw = req.body.confirmPassword;
+
+    const mobile = req.session.mobile;
+    const email = req.session.email;
+
+    // Password validation using the provided regex
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[a-zA-Z\d@$!%#?&]{8,}$/;
+    if (!passwordRegex.test(newpw)) {
+      return res.render("changePassword", {
+        message: "Password must contain 1 special character, 1 uppercase character, and 1 number, and its length should be at least 8 characters",
+      });
+    }
+
+    if (newpw === confpw) {
+      const spassword = await securePassword(newpw);
+      const newUser = await User.updateOne(
+        { email: email },
+        { $set: { password: spassword } }
+      );
+
+      console.log(newUser);
+      res.redirect("/login");
+
+      console.log("Password updated successfully");
+    } else {
+      res.render("changePassword", {
+        message: "Password and Confirm Password is not matching",
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
   }
 };
 
 
-
-module.exports.setNewPassword = async (req, res) => {
-
-    
-    const newpw = req.body.newPassword;
-    console.log("new password :",newpw)
-    const confpw = req.body.confirmPassword;
-    console.log("confirm Password :",confpw)
-    const mobile = req.session.mobile;
-    const email = req.session.email;
-    console.log(mobile);
-    console.log(email);
-
-    if (newpw === confpw) {
-        const spassword = await securePassword(newpw);
-        const newUser = await User.updateOne(
-            { email: email },
-            { $set: { password: spassword } }
-        );
-        res.redirect('/login')
-        console.log("Password updated successfully");
-    } else {
-        res.render("changePassword", {
-            message: "Password and Confirm Password is not matching",
-        });
-    }
-};
-
-  
 
 module.exports.displayProduct = async (req, res) => {
   try {

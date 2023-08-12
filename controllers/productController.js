@@ -201,7 +201,7 @@ const productDetails = async (req, res) => {
     const categoryid = productData.category._id.toString();
     const categoryData = await Category.findById(categoryid);
 
-   
+    
     res.render('productDetails', { product: productData, categoryData, 
       user: res.locals.user, 
       stock 

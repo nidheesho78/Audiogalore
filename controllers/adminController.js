@@ -32,6 +32,7 @@ const verifyLogin = async (req, res) => {
   try {
     const userName = req.body.userName;
     const password = req.body.password;
+    console.log(password,'////////////////////////')
     const adminData = await Admin.findOne({ userName: userName });
     if (adminData.password === password) {
       // const passwordMatch = await bcrypt.compare(password,userData.password)
@@ -66,8 +67,7 @@ const loadDashboard = async (req, res) => {
     ]);
 
     const salesData = await Order.aggregate([
-      { $skip: skip },
-      { $limit: pageSize },
+    
       { $unwind: "$orders" },
       {
         $match: {
