@@ -19,7 +19,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Smart Wrist</title>
+	<title>Audiogalore</title>
 	<!--
 			CSS
 			============================================= -->
@@ -183,23 +183,15 @@ figure{
 
 						<h2><i class="fa fa-inr" aria-hidden="true"></i> <%=product.price%></h2>
 						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> <%= categoryData.name %></a></li><span style="font-weight: bold; color: <%= product.stock > 0 ? 'green' : 'red' %>;">
- <span style="font-weight: bold; color: <%= product.stock > 0 ? 'green' : 'red' %>;">
-  Stock Availability: <%= product.stock > 0 ? 'In Stock' : 'Out of Stock' %>
-</span>
-<li>
-<span style="font-weight: bold; color: <%= product.stock > 0 ? 'green' : 'red' %>;">Available stocks:<%= product.stock %></span>
-
-</li>
+							<li><a class="active" href="#"><span>Category</span> <%= categoryData.name %></a></li>
+			<span style="font-weight: bold ; color: red;" id="stockQuantity">Available stocks:<%= product.stock %></span>
 
 						</ul>
-
 						<p><%=product.description%></p>
 						<div class="product_count">
                             <label for="qty">Quantity:</label>
-                           <input type="number" name="qty" id="qty" min="<%= product.stock >= 1 ? 1 : 0 %>" max="<%= product.stock %>" value="<%= product.stock >= 1 ? 1 : 0 %>" title="Quantity:" class="input-text qty">
-
-                            <button onclick="increaseQty('<%=product.stock%>')" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                            <input type="number" name="qty" id="qty" min="1" max="999" value="1" title="Quantity:" class="input-text qty">
+                            <button onclick="increaseQty()" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                             <button onclick="decreaseQty()" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
                         
@@ -207,15 +199,17 @@ figure{
 						<div class="card_area d-flex align-items-center">
                             <button class="primary-btn" id="addToCartButton" onclick="addToCart('<%=product._id%>' , '<%=product.name%>' )">Add to Cart</button>
                             <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                            <a class="icon_btn" href="" onclick="addToWishList('<%=product._id%>')">
-  <i class="lnr lnr lnr-heart"></i>
-</a>
-
+                            <a class="icon_btn" href=""  onclick="addToWishList('<%=product._id%>')"><i class="lnr lnr lnr-heart"></i></a>
                         </div>
 						<script src="script.js"></script>
                           
                           <!-- Add a hidden div for the popup window -->
-                       
+                        <div id="cartPopup" class="popup">
+                            <div class="popup-content">
+                              <span class="close" onclick="closePopup()">&times;</span>
+                              <p id="popupText"></p>
+                            </div>
+                        </div>
                           
 
 
@@ -644,30 +638,20 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 
   <script>
- function increaseQty(productStock) {
-    var qtyInput = document.getElementById('qty');
-    var currentQty = parseInt(qtyInput.value);
-
-	var productStock = parseInt(qtyInput.max);
-
-    if (!isNaN(currentQty)) {
-        if (currentQty < productStock) {
-            qtyInput.value = currentQty + 1;
-        } else {
-            alert('Sorry, the requested quantity exceeds stock availability.');
-        }
+    function increaseQty() {
+      var qtyInput = document.getElementById('qty');
+      var currentQty = parseInt(qtyInput.value);
+      if (!isNaN(currentQty)) {
+        qtyInput.value = currentQty + 1;
+      }
     }
-}
-
-
   
     function decreaseQty() {
       var qtyInput = document.getElementById('qty');
       var currentQty = parseInt(qtyInput.value);
-      if (!isNaN(currentQty) && currentQty > 1 ) {
+      if (!isNaN(currentQty) && currentQty > 1) {
         qtyInput.value = currentQty - 1;
       }
-	  
     }
   
     function addToCart(productId,name) {
@@ -716,41 +700,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         Swal.fire('Error', 'Invalid quantity', 'error');
       }
     }
-
-
-	function addToWishList(proId) {
-				event.preventDefault();
-				$.ajax({
-					url: '/add-to-wishlist',
-					method: 'POST',
-					data: {
-						proId: proId
-					},
-					success: (response) => {
-						if (response) {
-							// Product added to Wishlist successfully
-							Swal.fire({
-								position: 'centre',
-								icon: 'success',
-								title: 'Product added to wish list',
-								showConfirmButton: false,
-								timer: 1500
-							})
-
-
-						} else {
-							// Error adding product to Wishlist
-							Swal.fire({
-								icon: 'error',
-								title: 'Product already exist in Wishlist',
-								timer: 2000
-							});
-
-						}
-					}
-				})
-			}
-
   </script>
 
 

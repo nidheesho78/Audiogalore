@@ -1,6 +1,5 @@
 const Order = require("../models/orderModel");
 const User = require("../models/userModel")
-
 const { ObjectId } = require("mongodb");
 //changeOrderStatus
 
@@ -52,9 +51,12 @@ const findOrder = (orderId) => {
   }
 };
 
-// ///return order
-// const returnOrder = (orderId, status) => {
+
+//  const returnOrder = (orderId,user,status) => {
 //   try {
+//     console.log('returnOrderUSERdata',user);
+//     const USER=user
+//     console.log('returnOrderUSER',USER);
 //     return new Promise(async (resolve, reject) => {
 //       Order.findOne({ "orders._id": new ObjectId(orderId) })
 //         .then((orders) => {
@@ -71,6 +73,10 @@ const findOrder = (orderId) => {
 //               }
 //             ).then((response) => {
 //               resolve(response);
+//             })
+//             .catch((error) => {
+//               console.log('errorryyy rr',error);
+//               reject(error);
 //             });
 //           } else if (status == "Return Accepted") {
 //             Order.updateOne(
@@ -81,8 +87,29 @@ const findOrder = (orderId) => {
 //                   "orders.$.paymentStatus": "Refund Credited to Wallet",
 //                 },
 //               }
-//             ).then((response) => {
+//             ).then(async (response) => {
+//               console.log('USER',user);
+//               const userr = await User.findOne({ _id: user._id});
+              
+//               const currentWalletAmount = parseInt(userr.wallet);
+//               const orderTotalPrice = parseInt(order.totalPrice);
+//               userr.wallet = (currentWalletAmount + orderTotalPrice).toString();
+//               await userr.save();
+//               const walletTransaction = {
+//                 date:new Date(),
+//                 type:"Credit",
+//                 amount:order.totalPrice,
+//               }
+//               const walletupdated = await User.updateOne(
+//                 { _id: user._id },
+//                 {
+//                   $push: { walletTransaction: walletTransaction },
+//                 }
+//               )
 //               resolve(response);
+//             }).catch((error) => {
+//               console.log('errorrrr',error);
+//               reject(error);
 //             });
 //           }
 //         })
@@ -94,108 +121,12 @@ const findOrder = (orderId) => {
 //     console.log(error.message);
 //   }
 // };
-//  const cancelOrder = (orderId,userId, status) => {
-//     try {
-
-     
-//       return new Promise(async (resolve, reject) => {
-//         Order.findOne({ "orders._id": new ObjectId(orderId) }).then(async(orders) => {
-//           const order = orders.orders.find((order) => order._id == orderId);
-//           if(order.paymentMethod=='cod'){
-  
-//           if (status == 'Cancel Accepted') {
-//             Order.updateOne(
-//               { "orders._id": new ObjectId(orderId) },
-//               {
-//                 $set: {
-//                   "orders.$.cancelStatus": status,
-//                   "orders.$.orderStatus": status,
-//                   "orders.$.paymentStatus": "No Refund"
-//                 }
-//               }
-//             )
-            
-            
-//           }else if(status == 'Cancel Declined'){
-//             Order.updateOne(
-//               { "orders._id": new ObjectId(orderId) },
-//               {
-//                 $set: {
-//                   "orders.$.cancelStatus": status,
-//                   "orders.$.orderStatus": status,
-//                   "orders.$.paymentStatus": "No Refund"
-//                 }
-//               }
-//             ).then(async(response) => {
-//               resolve(response);
-//             });
-            
-
-//           }
-//         }else if(order.paymentMethod=='wallet'||order.paymentMethod=='razorpay'){
-//                     console.log(status);
-
-//           if (status == 'Cancel Accepted') {
-//   Order.updateOne(
-//     { "orders._id": new ObjectId(orderId) },
-//     {
-//       $set: {
-//         "orders.$.cancelStatus": status,
-//         "orders.$.orderStatus": status,
-//         "orders.$.paymentStatus": "Refund Credited to Wallet"
-//       }
-//     }
-//   ).then(async (response) => {
-//     console.log("Fetching user with ID:", userId);
-//     const user = await User.findOne({ _id: userId });
-//     console.log("Fetched user:", user);
-
-//     user.wallet += parseInt(order.totalPrice);
-//     await user.save();
-    
-//     const walletTransaction = {
-//       date: new Date(),
-//       type: "Credit",
-//       amount: order.totalPrice,
-//     };
-//     const walletupdated = await User.updateOne(
-//       { _id: userId },
-//       {
-//         $push: { walletTransaction: walletTransaction },
-//       }
-//     );
-//     resolve(response);
-//   });
 
 
-
-//           }else if(status == 'Cancel Declined'){
-//             Order.updateOne(
-//               { "orders._id": new ObjectId(orderId) },
-//               {
-//                 $set: {
-//                   "orders.$.cancelStatus": status,
-//                   "orders.$.orderStatus": status,
-//                   "orders.$.paymentStatus": "No Refund"
-//                 }
-//               }
-//             ).then((response) => {
-//               resolve(response);
-//             });
-//           }
-
-//         }
-//         });
-//       });
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
-
- const returnOrder = (orderId,user,status) => {
+const returnOrder = (orderId, status,USERdata) => {
   try {
-    console.log('returnOrderUSERdata',user);
-    const USER=user
+    console.log('returnOrderUSERdata',USERdata);
+    const USER=USERdata
     console.log('returnOrderUSER',USER);
     return new Promise(async (resolve, reject) => {
       Order.findOne({ "orders._id": new ObjectId(orderId) })
@@ -211,11 +142,13 @@ const findOrder = (orderId) => {
                   "orders.$.paymentStatus": "No Refund",
                 },
               }
-            ).then((response) => {
+            ) 
+
+            .then((response) => {
               resolve(response);
             })
             .catch((error) => {
-              console.log('errorryyy rr',error);
+              console.log('errorryyy\ rr',error);
               reject(error);
             });
           } else if (status == "Return Accepted") {
@@ -227,14 +160,19 @@ const findOrder = (orderId) => {
                   "orders.$.paymentStatus": "Refund Credited to Wallet",
                 },
               }
-            ).then(async (response) => {
-              console.log('USER',user);
-              const userr = await User.findOne({ _id: user._id});
+            ).then(async(response) => {
+              await addToStock(orderId,USER)
+              resolve(response);
+            })
+            .then(async (response) => {
+              console.log('USER',USER);
+              const user = await User.findOne({ _id: USER._id});
               
-              const currentWalletAmount = parseInt(userr.wallet);
+              const currentWalletAmount = parseInt(user.wallet);
               const orderTotalPrice = parseInt(order.totalPrice);
-              userr.wallet = (currentWalletAmount + orderTotalPrice).toString();
-              await userr.save();
+              user.wallet = (currentWalletAmount + orderTotalPrice).toString();
+              await user.save();
+               await addToStock(orderId,USER)
               const walletTransaction = {
                 date:new Date(),
                 type:"Credit",
@@ -262,6 +200,8 @@ const findOrder = (orderId) => {
   }
 };
 
+
+
 const getOnlineCount = () => {
   try{
   return new Promise(async (resolve, reject) => {
@@ -288,6 +228,43 @@ const getOnlineCount = () => {
   console.log(error.message,'getOnlineCount')
 }
 };
+
+const addToStock = async (orderId, userId) => {
+  try {
+    const order = await Order.findOne({ "orders._id": new ObjectId(orderId) });
+
+    if (!order) {
+      console.log("Order not found");
+      return;
+    }
+
+    const orderDetails = order.orders.find((order) => order._id.toString() === orderId);
+
+    if (!orderDetails) {
+      console.log("Order details not found");
+      return;
+    }
+
+    const cartProducts = orderDetails.productDetails;
+
+    for (const cartProduct of cartProducts) {
+      const productId = cartProduct.productId;
+      const quantity = cartProduct.quantity;
+
+      const product = await Product.findOne({ _id: productId });
+
+      if (product) {
+        await Product.updateOne(
+          { _id: productId },
+          { $inc: { stock: quantity } } // Increment stock by the quantity of returned product
+        );
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 ///get sales report
 

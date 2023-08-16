@@ -3,71 +3,9 @@ const Product = require("../models/productModel");
 
 
 
-const addCart = (productId, userId, quantity, price, name) => {
-  
-   try {
-  const totalPrice = quantity * price;
-
-  const productObj = {
-    name: name,
-    productId: productId,
-    userId: userId,
-    quantity: quantity,
-    total: totalPrice,
-  };
-
- 
-    return new Promise((resolve, reject) => {
-      Cart.findOne({ user: userId }).then(async (cart) => {
-        if (cart) {
-          const productExist = await Cart.findOne({
-            "cartItems.productId": productId,
-          });
-
-          if (productExist) {
-            Cart.updateOne(
-              { user: userId, "cartItems.productId": productId },
-              {
-                $inc: {
-                  "cartItems.$.quantity": quantity,
-                  "cartItems.$.total": totalPrice,
-                },
-                $set: {
-                  subTotal: cart.subTotal + totalPrice, // Update the subTotal field by adding the new total price
-                },
-              }
-            ).then((response) => {
-              resolve({ response, status: false });
-            });
-          } else {
-            Cart.updateOne(
-              { user: userId },
-              {
-                $push: { cartItems: productObj },
-                $inc: { subTotal: totalPrice },
-              }
-            ).then((response) => {
-              resolve({ status: true });
-            });
-          }
-        } else {
-          const newCart = await Cart({
-            user: userId,
-            cartItems: productObj,
-            subTotal: totalPrice,
-          });
-          await newCart.save().then((response) => {
-            resolve({ status: true });
-          });
-        }
-      });
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
 // const addCart = (productId, userId, quantity, price, name) => {
+  
+//    try {
 //   const totalPrice = quantity * price;
 
 //   const productObj = {
@@ -78,21 +16,15 @@ const addCart = (productId, userId, quantity, price, name) => {
 //     total: totalPrice,
 //   };
 
-//   try {
+ 
 //     return new Promise((resolve, reject) => {
 //       Cart.findOne({ user: userId }).then(async (cart) => {
 //         if (cart) {
-//           // Check if the product exists in the cart
 //           const productExist = await Cart.findOne({
 //             "cartItems.productId": productId,
 //           });
 
 //           if (productExist) {
-//             // Check if adding the quantity exceeds stock limit
-//             if (quantity > Product.stock) {
-//       return { status: false, message: "Not enough stock available." };
-//     }
-
 //             Cart.updateOne(
 //               { user: userId, "cartItems.productId": productId },
 //               {
@@ -101,7 +33,7 @@ const addCart = (productId, userId, quantity, price, name) => {
 //                   "cartItems.$.total": totalPrice,
 //                 },
 //                 $set: {
-//                   subTotal: cart.subTotal + totalPrice,
+//                   subTotal: cart.subTotal + totalPrice, // Update the subTotal field by adding the new total price
 //                 },
 //               }
 //             ).then((response) => {
@@ -134,6 +66,101 @@ const addCart = (productId, userId, quantity, price, name) => {
 //     console.log(error.message);
 //   }
 // };
+
+
+const addCart = async (productId, userId, quantity, price, name) => {
+  try {
+    const product = await Product.findOne({ _id: productId });
+
+    if (!product) {
+      return { status: false, message: "Product not found." };
+    }
+
+    if (quantity > product.stock) {
+      return { status: false, message: "Not enough stock available." };
+    }
+
+    const totalPrice = quantity * price;
+
+    const productObj = {
+      name: name,
+      productId: productId,
+      userId: userId,
+      quantity: quantity,
+      total: totalPrice,
+    };
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const cart = await Cart.findOne({ user: userId });
+
+        if (cart) {
+          const productExist = await Cart.findOne({
+            "cartItems.productId": productId,
+          });
+
+          if (productExist) {
+            Cart.updateOne(
+              { user: userId, "cartItems.productId": productId },
+              {
+                $inc: {
+                  "cartItems.$.quantity": quantity,
+                  "cartItems.$.total": totalPrice,
+                },
+                $set: {
+                  subTotal: cart.subTotal + totalPrice,
+                },
+              }
+            ).then((response) => {
+              // Update the product's stock after the purchase
+              Product.updateOne(
+                { _id: productId },
+                { $inc: { stock: -quantity } }
+              ).then(() => {
+                resolve({ response, status: true });
+              });
+            });
+          } else {
+            Cart.updateOne(
+              { user: userId },
+              {
+                $push: { cartItems: productObj },
+                $inc: { subTotal: totalPrice },
+              }
+            ).then((response) => {
+              // Update the product's stock after the purchase
+              Product.updateOne(
+                { _id: productId },
+                { $inc: { stock: -quantity } }
+              ).then(() => {
+                resolve({ status: true });
+              });
+            });
+          }
+        } else {
+          const newCart = await Cart({
+            user: userId,
+            cartItems: productObj,
+            subTotal: totalPrice,
+          });
+          await newCart.save().then((response) => {
+            // Update the product's stock after the purchase
+            Product.updateOne(
+              { _id: productId },
+              { $inc: { stock: -quantity } }
+            ).then(() => {
+              resolve({ status: true });
+            });
+          });
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 const deleteProduct = async (data) => {

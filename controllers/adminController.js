@@ -371,12 +371,109 @@ const changeStatus = async(req,res)=>{
 
 
 
-const cancelOrder = (req, res) => {
+// const cancelOrder = (req, res) => {
+//   try {
+//     console.log("primaryy");
+//     const orderId = req.body.orderId;
+//     const status = req.body.status;
+//     console.log("status", status);
+//     return new Promise(async (resolve, reject) => {
+//       Order.findOne({ "orders._id": new ObjectId(orderId) }).then((orders) => {
+//         const order = orders.orders.find((order) => order._id == orderId);
+
+//         if (
+//           status == "Cancel Accepted" ||
+//           status == "Cancel Declined" ||
+//           status == "Direct Cancel"
+//         ) {
+//           Order.updateOne(
+//             { "orders._id": new ObjectId(orderId) },
+//             {
+//               $set: {
+//                 "orders.$.orderStatus": status,
+//                 "orders.$.paymentStatus": "No Refund",
+//                  "orders.$.canceledAt": new Date()
+//               },
+//             }
+//           ).then((response) => {
+//             resolve(response);
+//           });
+//         }
+
+//         if (
+//           order.paymentMethod == "wallet" ||
+//           order.paymentMethod == "razorpay"
+//         ) {
+//           console.log("one");
+
+//           if (status == "Cancel Accepted" ||status == " Direct Cancel") {
+//             console.log("two");
+   
+
+//             Order.updateOne(
+//               { "orders._id": new ObjectId(orderId) },
+//               {
+//                 $set: {
+//                   "orders.$.orderStatus": status,
+//                   "orders.$.paymentStatus": "Refund Credited to Wallet",
+                  
+                
+
+//                 },
+//               }
+//             ).then(async (response) => {
+//               const userId = res.locals.user._id;
+//               console.log("CANCEL",response);
+
+//               console.log(response);
+//               const user = await User.findOne({ _id: userId });
+//               const currentWalletAmount = parseInt(user.wallet);
+//               const orderTotalPrice = parseInt(order.totalPrice);
+//               user.wallet = (currentWalletAmount + orderTotalPrice).toString();
+//               await user.save();
+
+//               const walletTransaction = {
+//                 date: new Date(),
+//                 type: "Credit",
+//                 amount: order.totalPrice,
+//               };
+//               const walletupdated = await User.updateOne(
+//                 { _id: userId },
+//                 {
+//                   $push: { walletTransaction: walletTransaction },
+//                 }
+//               );
+//               resolve(response);
+//             });
+//           }
+//           // if(status == ' Cancel Declined'){
+//           //   Order.updateOne(
+//           //     { "orders._id": new ObjectId(orderId) },
+//           //     {
+//           //       $set: {
+//           //         "orders.$.cancelStatus": status,
+//           //         "orders.$.orderStatus": status,
+//           //         "orders.$.paymentStatus": "No Refund"
+//           //       }
+//           //     }
+//           //   ).then((response) => {
+//           //     resolve(response);
+//           //   });
+//           // }
+//         }
+//       });
+//     });
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
+
+const cancelOrder = async (req, res) => {
   try {
-    console.log("primaryy");
+    const userId = req.body.userId;
     const orderId = req.body.orderId;
     const status = req.body.status;
-    console.log("status", status);
+
     return new Promise(async (resolve, reject) => {
       Order.findOne({ "orders._id": new ObjectId(orderId) }).then((orders) => {
         const order = orders.orders.find((order) => order._id == orderId);
@@ -392,46 +489,38 @@ const cancelOrder = (req, res) => {
               $set: {
                 "orders.$.orderStatus": status,
                 "orders.$.paymentStatus": "No Refund",
-                 "orders.$.canceledAt": new Date()
+                "orders.$.canceledAt": new Date(),
               },
             }
-          ).then((response) => {
-            resolve(response);
-          });
+          )
+            .then((response) => {
+              addToStock(orderId, userId); // Call addToStock function only once
+              resolve(response);
+            });
         }
 
         if (
           order.paymentMethod == "wallet" ||
           order.paymentMethod == "razorpay"
         ) {
-          console.log("one");
-
-          if (status == "Cancel Accepted" ||status == " Direct Cancel") {
-            console.log("two");
-   
-
+          if (status == "Cancel Accepted" || status == "Direct Cancel") {
             Order.updateOne(
               { "orders._id": new ObjectId(orderId) },
               {
                 $set: {
                   "orders.$.orderStatus": status,
                   "orders.$.paymentStatus": "Refund Credited to Wallet",
-                  
-                
-
                 },
               }
             ).then(async (response) => {
               const userId = res.locals.user._id;
-              console.log("CANCEL",response);
-
-              console.log(response);
               const user = await User.findOne({ _id: userId });
               const currentWalletAmount = parseInt(user.wallet);
               const orderTotalPrice = parseInt(order.totalPrice);
               user.wallet = (currentWalletAmount + orderTotalPrice).toString();
               await user.save();
 
+              addToStock(orderId, userId); // Call addToStock function only once
               const walletTransaction = {
                 date: new Date(),
                 type: "Credit",
@@ -446,29 +535,15 @@ const cancelOrder = (req, res) => {
               resolve(response);
             });
           }
-          // if(status == ' Cancel Declined'){
-          //   Order.updateOne(
-          //     { "orders._id": new ObjectId(orderId) },
-          //     {
-          //       $set: {
-          //         "orders.$.cancelStatus": status,
-          //         "orders.$.orderStatus": status,
-          //         "orders.$.paymentStatus": "No Refund"
-          //       }
-          //     }
-          //   ).then((response) => {
-          //     resolve(response);
-          //   });
-          // }
         }
       });
     });
   } catch (error) {
     console.log(error.message);
+  
+
   }
 };
-
-
 
 const orderDetails = async (req,res)=>{
     try {
@@ -624,6 +699,36 @@ const postCancelReport = (req, res) => {
   console.log(error.message)
 }
 };
+
+const addToStock = async(orderId,userId)=>{
+  try{
+    Order.findOne({ "orders._id": new ObjectId(orderId) }).then(async(orders) => {
+      const order = orders.orders.find((order) => order._id == orderId);
+      const cartProducts = order.productDetails
+      for(const cartProduct of cartProducts ){
+        const productId = cartProduct.productId;
+        const quantity = cartProduct.quantity;
+      
+        const product = await Product.findOne({_id:productId})
+      
+      
+      
+        await Product.updateOne({_id:productId},
+          {$inc:{stock:quantity}}
+          )
+      
+      }
+      
+    })
+
+
+
+  }catch(error){
+    console.log(error.message)
+  
+
+  }
+}
 
 
 

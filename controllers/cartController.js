@@ -55,7 +55,7 @@ const viewCart = async (req, res) => {
 
       res.render("cart2", { productList, subTotal, cartId });
     } else {
-      console.log("haii");
+     
       res.render("cart2", { productList: [] });
     }
   } catch (error) {
@@ -67,39 +67,87 @@ const viewCart = async (req, res) => {
 
 
 
+// const updatecart = async (req, res) => {
+//   try {
+//     const productId = req.body.productId;
+//     const quantity = req.body.quantity;
+
+//     const product = await Product.findById(productId);
+//     const price = product.price;
+//     const totalPrice = quantity * price;
+
+//     const cart = await Cart.findOneAndUpdate(
+//       { "cartItems.productId": productId },
+//       {
+//         $set: {
+//           "cartItems.$.quantity": quantity,
+//           "cartItems.$.total": totalPrice,
+//         },
+//       },
+//       { new: true } // This option ensures that the updated cart document is returned
+//     );
+
+//     // Calculate the sum of all cartItems.total values
+//     const subTotal = cart.cartItems.reduce((acc, item) => acc + item.total, 0);
+//     await Cart.updateOne({ _id: cart._id }, { $set: { subTotal: subTotal } });
+
+//     res.json({ totalPrice, subTotal });
+//     // console.log("Cart updated:", cart);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
+
 const updatecart = async (req, res) => {
   try {
     const productId = req.body.productId;
-    const quantity = req.body.quantity;
+    const newQuantity = req.body.quantity;
 
     const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const oldCartItem = await Cart.findOne({
+      "cartItems.productId": productId,
+    });
+    if (!oldCartItem) {
+      return res.status(404).json({ message: "Product not found in cart" });
+    }
+
+    const availableStock = product.stock + oldCartItem.cartItems[0].quantity;
+
+    if (newQuantity > availableStock) {
+      return res.status(400).json({ message: "Not enough stock available" });
+    }
+
     const price = product.price;
-    const totalPrice = quantity * price;
+    const totalPrice = newQuantity * price;
 
     const cart = await Cart.findOneAndUpdate(
       { "cartItems.productId": productId },
       {
         $set: {
-          "cartItems.$.quantity": quantity,
+          "cartItems.$.quantity": newQuantity,
           "cartItems.$.total": totalPrice,
         },
       },
-      { new: true } // This option ensures that the updated cart document is returned
+      { new: true }
     );
 
-    // Calculate the sum of all cartItems.total values
     const subTotal = cart.cartItems.reduce((acc, item) => acc + item.total, 0);
     await Cart.updateOne({ _id: cart._id }, { $set: { subTotal: subTotal } });
 
     res.json({ totalPrice, subTotal });
-    // console.log("Cart updated:", cart);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
+    res.redirect('/404Error')
+
   }
 };
-
-
 
 const deleteCart=async(req,res)=>{
   try{

@@ -5,7 +5,6 @@ const otpHelper = require('../helpers/otpHelper')
 const Banner = require('../models/bannerModel')
 const Address = require("../models/userAddressModel");
 const Cart = require("../models/cartModel");
-
 const Category = require("../models/categoryModel");
 const { ObjectId } = require("mongodb"); 
 const profileHelper = require('../helpers/profileHelper')

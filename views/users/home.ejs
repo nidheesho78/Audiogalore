@@ -81,14 +81,14 @@
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
                                 <li class="megamenu-container active">
-                                    <a href="/home" class="sf-with-ul">Home</a>
+                                    <a href="/" class="">Home</a>
 
 
                                 </li>
 
 
                                 <li>
-                                    <a href="/shop" class="sf-with-ul">Shop</a>
+                                    <a href="/shop" class="">Shop</a>
 
 
                                 </li>
@@ -119,6 +119,11 @@
                                             </ul>
                                         </li>
                                         <% } %>
+                                         <li>
+                <a href="/loadWishlist" class="">
+                    <i class="fa fa-heart  " aria-hidden="true"></i>Wishlist <!-- Add your wishlist icon class here -->
+                </a>
+            </li>
 
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
@@ -131,14 +136,7 @@
                                 <i class="icon-shopping-cart"></i>
 
                             </a>
-                            <a href="/viewCart" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false" data-display="static">
-                            <i class="fa fa-heart-o" aria-hidden="true"></i>
-
-                        </a>
                            
-                        </a>
-
 
 
                         </div><!-- End .cart-dropdown -->
@@ -165,7 +163,7 @@
                         <h3 class="intro-subtitle"><%= item.subTitle %></h3><!-- End .h3 intro-subtitle -->
                         <h1 class="intro-title text-white"><%= item.title %></h1><!-- End .intro-title -->
             
-                        <div class="intro-price text-white">from $<%= item.price %></div><!-- End .intro-price -->
+                        <div class="intro-price text-white">from ₹<%= item.price %></div><!-- End .intro-price -->
             
                         <a href="<%= item.link %>" class="btn btn-white-primary btn-round">
                             <span>SHOP NOW</span>
@@ -245,7 +243,7 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="banner banner-cat">
                             <a href="#">
-                                <img src="../assetsnew/images/nike2.jpg" alt="Banner">
+                                <img src="../assetsnew/images/img3.jpeg" alt="Banner">
                             </a>
 
                             <div class="banner-content banner-content-overlay text-center">
@@ -258,12 +256,12 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="banner banner-cat">
                             <a href="#">
-                                <img src="../assetsnew/images/puma.jpg" alt="Banner">
+                                <img src="../assetsnew/images/img1.jpeg" alt="Banner">
                             </a>
 
                             <div class="banner-content banner-content-overlay text-center">
                                 <h3 class="banner-title font-weight-normal">JBL</h3><!-- End .banner-title -->
-                                <a href="#" class="banner-link" onclick="passCategoryId('649116bf8ac58b3536ba0418')">SHOP NOW</a>
+                                <a href="#" class="banner-link" onclick="passCategoryId('64d72300b4a0b878c8a3a716')">SHOP NOW</a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
                     </div><!-- End .col-md-4 -->
@@ -271,13 +269,13 @@
                     <div class="col-sm-6 col-md-4">
                         <div class="banner banner-cat">
                             <a href="#">
-                                <img src="../assetsnew/images/adidas2.jpg" alt="Banner">
+                                <img src="../assetsnew/images/img2.jpeg" alt="Banner">
                             </a>
 
                             <div class="banner-content banner-content-overlay text-center">
                            
                                 <h3 class="banner-title font-weight-normal" >SONY</h3><!-- End .banner-title -->
-                                <a href="#" class="banner-link" onclick="passCategoryId('649116e28ac58b3536ba041e')">SHOP NOW</a>
+                                <a href="#" class="banner-link" onclick="passCategoryId('64d72309b4a0b878c8a3a71c')">SHOP NOW</a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
                     </div><!-- End .col-md-4 -->

@@ -30,7 +30,7 @@ const profile = async (req, res) => {
    const address = await Address.find();
 const arr = address.map((x) => x.addresses);
 
-    res.render("dashboard", { user, arr, orders });
+    res.render("profileDetails", { user, arr, orders });
   } catch (error) {
     console.log(error.message);
   }

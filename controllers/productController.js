@@ -1,4 +1,4 @@
-const path = require("path");
+
 const Product = require("../models/productModel");
 const Category = require("../models/categoryModel");
 
@@ -208,6 +208,8 @@ const productDetails = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
+    res.redirect('/404Error')
+
   }
 };
 module.exports = {

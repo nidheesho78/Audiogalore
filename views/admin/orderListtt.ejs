@@ -26,6 +26,48 @@
 
 <body>
    
+    <style>
+  /* Add hover effect to table rows */
+.table-hover tbody tr:hover {
+    background-color: #46f1be;
+}
+.tableHead {
+    background-color:#46f1be; /* Set your desired background color for the header row */
+  
+  }
+/* Add spacing between table cells */
+.table td,
+.table th {
+    padding: 8px;
+    vertical-align: top;
+}
+
+/* Style the dropdown button */
+.dropdown .btn-light {
+    border: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 18px;
+}
+
+ .table tbody td {
+    border: 1px solid #dee2e6; /* Set the border color and width */
+    padding: 8px; /* Add padding for better cell spacing */
+    align-items: center;
+  }
+/* Style the dropdown menu items */
+.dropdown-menu a.dropdown-item {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Add margin to the dropdown menu items */
+.dropdown-menu a.dropdown-item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+</style>   
        
 <%- include('../layouts/adminHeader.ejs') %>
 
@@ -43,14 +85,14 @@
                     <div class="table-responsive">
                         <table class="table table-hover" id="myTable">
                             <thead>
-                                <tr>
+                                <tr class="tableHead">
                                   
                                     <th scope="col">Name</th>
                                  
                                     <th scope="col">Total</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Date</th>
-                                    <th scope="col" class="text-end"> Action </th>
+                                    <th scope="col" class="text-center"> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,24 +109,19 @@
                                             <a href="" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             <div class="dropdown-menu">
                                                 <%if(order.orders.orderStatus=='Placed'){%>
-                                                <a class="dropdown-item cancelStatusButton" data-orderid="<%=order.orders._id%>" data-status="Direct Cancel">Cancel Order</a>
+                                                <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Direct Cancel')">Cancel Order</a>
 
-                                           <a class="dropdown-item" onclick="orderStatus('<%=order.orders._id%>','Dispatched')">Dispatched</a>
-
+                                                <a class="dropdown-item" onclick="orderStatus('<%=order.orders._id%>','Dispatched')">Dispatched</a>
                                                 <%}else if(order.orders.orderStatus=='Dispatched'){%>
                                                 <a class="dropdown-item" onclick="orderStatus('<%=order.orders._id%>','Delivered')">Delivered</a>
                                                 <%}else if(order.orders.orderStatus=='Cancel Requested'){%>
                                                     <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Cancel Accepted')"> Accept</a>
                                                     <a class="dropdown-item" onclick="cancelStatus('<%=order.orders._id%>','Cancel Declined')">Decline</a>
                                                     <%}else if(order.orders.orderStatus=='Return Requested'){%>
-                                                <a class="dropdown-item" onclick="returnOrder('<%=order.orders._id%>','Return Accepted')"> Accept Return</a>
-
+                                                        <a class="dropdown-item" onclick="returOrder('<%=order.orders._id%>','Return Accepted')"> Accept Return</a>
                                                     <a class="dropdown-item" onclick="returnOrder('<%=order.orders._id%>','Return Declined')">Decline Return</a>
                                                     
                                                     <%}%>
-
-
-
                                                    
 
 
@@ -132,40 +169,6 @@
     <!-- Main Script -->
     <script src="../assets/js/main.js" type="text/javascript"></script>
 
-<!-- Other script includes -->
-
-<script>
-  $(document).ready(function() {
-    $('#myTable').DataTable({
-      "paging": true,
-      "pageLength": 10,
-      "lengthMenu": [10, 25, 50, 75, 100],
-    });
-
-   
-
-    $('.cancelStatusButton').click(function() {
-      const orderId = $(this).data('orderid');
-      const status = $(this).data('status');
-      
-      $.ajax({
-        url: '/admin/cancelOrder',
-        method: 'put',
-        data: {
-          orderId: orderId,
-          status: status
-        },
-        success: (response) => {
-          if (response) {
-            location.reload();
-          }
-        }
-      });
-    });
-
-   
-  });
-</script>
 
     <script>
   

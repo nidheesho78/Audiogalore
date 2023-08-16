@@ -54,9 +54,6 @@
                         <thead>
                             <tr>
                                 <th scope="col">Product</th>
-                                <th scope="col">Stock</th>
-
-
                                 <th scope="col">Price</th>
                                 <th scope="col" style="padding-left: 30px;">Quantity</th>
                                 <th scope="col">Total</th>
@@ -82,10 +79,6 @@
                                         </div>
                                     </div>
                                 </td>
-                               <td>
-    <h5 id="stock-<%= item.product._id %>"><%= item.product.stock %></h5>
-</td>
-
                                 <td>
                                     <h5><%= item.product.price %></h5>
 
@@ -102,10 +95,9 @@
                                 </td>
                                 
                                 
-                                  <td>
-    <h5 id="total-<%= item.product._id %>">₹<%= item.total %>.00</h5>
-</td>
-
+                                    <td>
+                                        <h5 id="total-<%= item.product._id %>">₹<%= item.total %>.00</h5>
+                                    </td>
 
                                     <td class="action" style="padding-left: 40px; font-size: 20px;" data-title="Remove"><a href="#" class="text-muted" onclick="deleteProduct('<%=cartId%>','<%=item.product._id %>', '<%=item.quantity%>'  )"><i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
@@ -117,7 +109,7 @@
                           
                             <tr class="bottom_button">
                                 <td>
-                                  
+                                    <!-- <a class="gray_btn" href="#">Update Cart</a> -->
                                 </td>
                                 <td>
 
@@ -126,7 +118,11 @@
 
                                 </td>
                                 <td>
-                                   
+                                    <!-- <div class="cupon_text d-flex align-items-center">
+                                        <input type="text" placeholder="Coupon Code">
+                                        <a class="primary-btn" href="#">Apply</a>
+                                        <a class="gray_btn" href="#">Close Coupon</a>
+                                    </div> -->
                                 </td>
                             </tr>
                             <tr>
@@ -326,31 +322,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="../fe/js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
 
-<!-- ... (previous HTML code) ... -->
 
-<!-- ... your other HTML code ... -->
 
-<script>
+
+   <script>
     function updateQuantity(productId, action) {
         const quantityInput = document.getElementById(`sst-${productId}`);
-        const stockElement = document.getElementById(`stock-${productId}`);
         let quantity = parseInt(quantityInput.value);
-        const stock = parseInt(stockElement.textContent);
 
         if (action === 'increase') {
             quantity += 1;
         } else if (action === 'decrease' && quantity > 1) {
             quantity -= 1;
-        }
-
-        if (quantity > stock) {
-            // Display a pop-up warning message
-            Swal.fire({
-                icon: 'error',
-                title: 'Stock Limit Exceeded',
-                text: 'The selected quantity exceeds the available stock.',
-            });
-            return; // Do not update cart if stock limit exceeded
         }
 
         quantityInput.value = quantity;
@@ -358,107 +341,25 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     }
 
     function updateCart(productId, quantity) {
-        fetch('/updateCart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId, quantity })
-        })
+    fetch('/updatecart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId, quantity })
+    })
         .then(response => response.json())
         .then(data => {
-            const newTotalPrice = data.totalPrice;
-            const newSubTotal = data.subTotal;
-
             const totalPriceElement = document.getElementById(`total-${productId}`);
+            totalPriceElement.textContent = `₹${data.totalPrice}.00`;
+
             const subtotalElement = document.getElementById('subtotal');
-
-            if (totalPriceElement) {
-                totalPriceElement.textContent = `₹${newTotalPrice.toFixed(2)}`;
-            }
-
-            if (subtotalElement) {
-                subtotalElement.textContent = `₹${newSubTotal.toFixed(2)}`;
-            }
+            subtotalElement.textContent = `₹${data.subTotal}.00`;
         })
         .catch(error => {
             console.error('Error:', error);
         });
-    }
-</script>
-
-<!-- ... your other HTML code ... -->
-
-
-<!-- ... (remaining HTML code) ... -->
-
-
-<!-- <script>
-    function updateQuantity(productId, action) {
-        const quantityInput = document.getElementById(`sst-${productId}`);
-        const stockElement = document.getElementById(`stock-${productId}`);
-        let quantity = parseInt(quantityInput.value);
-        const stock = parseInt(stockElement.textContent);
-
-        if (action === 'increase') {
-            quantity += 1;
-        } else if (action === 'decrease' && quantity > 1) {
-            quantity -= 1;
-        }
-
-        if (quantity > stock) {
-            // Display a pop-up warning message
-            Swal.fire({
-                icon: 'error',
-                title: 'Stock Limit Exceeded',
-                text: 'The selected quantity exceeds the available stock.',
-            });
-            return; // Do not update cart if stock limit exceeded
-        }
-
-        quantityInput.value = quantity;
-        updateCart(productId, quantity);
-    }
-
-    // Rest of your updateCart function...
-
-</script> -->
-
-   <script>
-    // function updateQuantity(productId, action) {
-        const quantityInput = document.getElementById(`sst-${productId}`);
-        let quantity = parseInt(quantityInput.value);
-
-        if (action === 'increase') {
-            quantity += 1;
-        } else if (action === 'decrease' && quantity > 1) {
-            quantity -= 1;
-        }
-
-        quantityInput.value = quantity;
-        updateCart(productId, quantity);
-    }
-
-//     function updateCart(productId, quantity) {
-//     fetch('/updateCart', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ productId, quantity })
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             const totalPriceElement = document.getElementById(`total-${productId}`);
-//             totalPriceElement.textContent = `₹${data.totalPrice}.00`;
-
-//             const subtotalElement = document.getElementById('subtotal');
-//             subtotalElement.textContent = `₹${data.subTotal}.00`;
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// }
+}
 
 </script>
 

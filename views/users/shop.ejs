@@ -247,10 +247,10 @@
 												<div class="prd-bottom"
 													style="margin-left: 15px;margin-bottom: 10px; padding-bottom: 20px;">
 													<a href="#" class="social-info"
-														onclick="addToCart('<%=product._id%>', '<%=product.name%>')">
-														<span class="ti-bag"></span>
-														<p class="hover-text">add to bag</p>
-													</a>
+   onclick="checkStockAndAddToCart('<%=product._id%>', '<%=product.name%>', '<%=product.stock%>')">
+   <span class="ti-bag"></span>
+   <p class="hover-text">add to bag</p>
+</a>
 													<a href="" class="social-info"
 														onclick="addToWishList('<%=product._id%>')">
 														<span class="lnr lnr-heart"></span>
@@ -498,10 +498,18 @@
 			}
 		</script>
 
-
-
-		<script>
-
+<script>
+ function checkStockAndAddToCart(productId, productName, productStock) {
+        if (productStock <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Out of Stock',
+                text: 'This product is currently out of stock.',
+            });
+        } else {
+            addToCart(productId, productName);
+        }
+    }
 
 			function addToCart(productId, name) {
 
@@ -552,6 +560,60 @@
 				}
 			}
 		</script>
+
+
+		<!-- <script>
+
+
+			function addToCart(productId, name) {
+
+				event.preventDefault();
+
+				var quantity = 1
+				console.log(quantity);
+				if (!isNaN(quantity) && quantity > 0) {
+					var data = {
+						productId: productId,
+						quantity: quantity,
+						name: name
+					};
+
+					fetch('/addToCart', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(data)
+					})
+						.then(function (response) {
+							if (response.ok) {
+								Swal.fire({
+									title: 'Success',
+									text: 'Product added to cart',
+									icon: 'success',
+									showCancelButton: true,
+									confirmButtonColor: '#3085d6',
+									cancelButtonColor: '#d33',
+									confirmButtonText: 'View Cart',
+									cancelButtonText: 'Continue Shopping'
+								}).then(function (result) {
+									if (result.isConfirmed) {
+										window.location.href = '/viewCart';
+									}
+								});
+							} else {
+								Swal.fire('Error', 'Failed to add product to cart', 'error');
+							}
+						})
+						.catch(function (error) {
+							console.log('Error:', error);
+							Swal.fire('Error', 'Failed to add product to cart', 'error');
+						});
+				} else {
+					Swal.fire('Error', 'Invalid quantity', 'error');
+				}
+			}
+		</script> -->
 
 
 		<script>
