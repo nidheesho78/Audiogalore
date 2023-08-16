@@ -154,7 +154,7 @@ module.exports.verifyLogin = async (req, res) => {
           const token = createToken(userData._id);
           res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
           req.session.id = userData._id;
-          return res.redirect("/home");
+          return res.redirect("/");
           // res.send("success")
         }
       } else {
