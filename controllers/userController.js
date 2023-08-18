@@ -112,7 +112,7 @@ module.exports.insertUser = async (req, res) => {
       res.render("verifyOtp");
     } catch (error) {
       console.log(error.message);
-      res.redirect("/error-500");
+      res.redirect("/500Error");
     }
   } catch (error) {
     console.log(error.message);
@@ -139,6 +139,7 @@ module.exports.verifyLogin = async (req, res) => {
     if (!password) {
       return res.render("userLogin", { message: "Password must be filled" });
     }
+  
 
     const userData = await User.findOne({ email: email });
 

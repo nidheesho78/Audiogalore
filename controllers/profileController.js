@@ -69,9 +69,9 @@ const submitAddress = async (req, res) => {
 
     res.json({ message: "Address saved successfully!" });
 
-    console.log(result);
+   
 
-    res.redirect("/profile"); // Redirect to the profile page after saving the address
+    res.render("address"); // Redirect to the profile page after saving the address
   } catch (error) {
     console.log(error.message);
   }
